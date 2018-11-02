@@ -15,20 +15,58 @@
 \section*{Studentgegevens}
 \begin{description}
 	\item [Cursuscode] IM0102
-	\item \todo{Titel van het scenario}
-	\item [Naam] \todo{invullen}
-	\item [Studentnummer] \todo{invullen}
-	\item [Naam] \todo{invullen}
+	\item Jabberpoint
+    \item Jan Jaap Sandee
+	\item 852025385
+	\item Gerralt Gottemaker
 	\item [Studentnummer] \todo{invullen}
 \end{description}
 
 \section*{Aanpak}
 \todo{<Geef aan hoe jullie de opdracht hebben aangepakt en wie wat heeft gedaan, maximaal 1 A-4. Geef expliciet aandacht aan de volgorde van activiteiten>}
+Allereerst is er een eenvoudig diagram gemaakt van de huidige situatie. Dit ten
+behoeve van geplande refactoring en aanpassingen.
 
+Vervolgens is er een Probleem Analyse gemaakt waarbij alleen is gekeken naar de
+functionaliteit van het systeem. Zonder te kijken naar de code die er al is.
 
 
 \section{Probleemanalyse}
+JabberPoint is een eenvoudige presentatie tool. Op basis van Dingen, Regels, en
+Acties ga ik het programma uitwerken om tot een degelijk ontwerp te komen.
+Hierin kijken we eerst naar de acties in het kader van wat een gebruiker met die
+programma kan doen. Dan de dingen die hier voor worden gebruikt, en als laatste
+de regels waar het aan moet voldoen.
 
+\subsection{Acties}
+De gebruiker kan een bestand openen met daarin een presentatie.
+
+De gebruiker kan naar de volgende en vorige slides gaan.
+
+Update: De gebruiker kan per element naar voren gaan in de huidige slide.
+
+\subsection{Dingen}
+
+Er is een Presentatie, deze heeft Slides, en elke Slide heeft een aantal
+elementen welke kunnen bestaan uit text of een afbeelding.
+
+Er is een menu, welke een aantal acties voor de gebruiker heeft.
+
+\subsection{Regels}
+De gebruiker kan niet terug navigeren bij de eerste slide.
+
+De gebruiker kan niet vooruit navigeren bij de laatste slide.
+
+Als er geen bestandsnaam is opgegeven wordt er een standaard bestand geopend.
+
+Update: Wanneer alle elementen getoond worden van een slide, dan zal de volgende
+'element' naar de volgende slide gaan.
+
+Omgekeerd bij het terug gaan zal naar de vorige slide worden gegaan welke
+volledig getoond wordt met alle elementen.
+
+Wanneer gebruikt gemaakt wordt van navigatie om direct naar een vorige of
+volgende slide te gaan, dan wordt de slide in being status getoond.
 
 \section{Ontwerp}
 
