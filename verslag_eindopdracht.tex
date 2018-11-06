@@ -23,7 +23,9 @@
 \end{description}
 
 \section*{Aanpak}
-\todo{<Geef aan hoe jullie de opdracht hebben aangepakt en wie wat heeft gedaan, maximaal 1 A-4. Geef expliciet aandacht aan de volgorde van activiteiten>}
+\todo{<Geef aan hoe jullie de opdracht hebben aangepakt en wie wat heeft gedaan,
+maximaal 1 A-4. Geef expliciet aandacht aan de volgorde van activiteiten>}
+
 Allereerst is er een eenvoudig diagram gemaakt van de huidige situatie. Dit ten
 behoeve van geplande refactoring en aanpassingen.
 
@@ -33,22 +35,17 @@ functionaliteit van het systeem. Zonder te kijken naar de code die er al is.
 
 \section{Probleemanalyse}
 JabberPoint is een eenvoudige presentatie tool. Op basis van Dingen, Regels, en
-Acties ga ik het programma uitwerken om tot een degelijk ontwerp te komen.
+Acties gaan we het programma uitwerken om tot een degelijk ontwerp te komen.
 Hierin kijken we eerst naar de acties in het kader van wat een gebruiker met die
 programma kan doen. Dan de dingen die hier voor worden gebruikt, en als laatste
 de regels waar het aan moet voldoen.
-
-\subsection{Acties}
-De gebruiker kan een bestand openen met daarin een presentatie.
-
-De gebruiker kan naar de volgende en vorige slides gaan.
-
-Update: De gebruiker kan per element naar voren gaan in de huidige slide.
 
 \subsection{Dingen}
 
 Er is een Presentatie, deze heeft Slides, en elke Slide heeft een aantal
 elementen welke kunnen bestaan uit text of een afbeelding.
+
+Texten in een Presentatie hebben een bepaalde stijl.
 
 Er is een menu, welke een aantal acties voor de gebruiker heeft.
 
@@ -57,16 +54,51 @@ De gebruiker kan niet terug navigeren bij de eerste slide.
 
 De gebruiker kan niet vooruit navigeren bij de laatste slide.
 
-Als er geen bestandsnaam is opgegeven wordt er een standaard bestand geopend.
+Als er geen bestandsnaam is opgegeven wordt er een Demo Presentatie geopend.
 
-Update: Wanneer alle elementen getoond worden van een slide, dan zal de volgende
-'element' naar de volgende slide gaan.
+Stijl van een text in een slide bepaald:
+\begin{itemize}
+    \item Kleur
+    \item Font
+    \item Lettergrootte
+    \item Indentatie
+    \item Lead (afstand tot regel er voor)
+\end{itemize}
 
 Omgekeerd bij het terug gaan zal naar de vorige slide worden gegaan welke
 volledig getoond wordt met alle elementen.
 
 Wanneer gebruikt gemaakt wordt van navigatie om direct naar een vorige of
 volgende slide te gaan, dan wordt de slide in being status getoond.
+
+\subsection{Acties}
+De gebruiker kan een bestand openen met daarin een presentatie.
+
+De gebruiker kan naar de volgende en vorige slides gaan.
+
+Het menu bevat de volgende acties:
+\begin{itemize}
+    \item Open: Opent een bestand.
+    \item New: Maak een nieuwe presentatie.
+    \item Save: Sla de huidige presentatie op.
+    \item Exit: Sluit het programma af.
+    \item Prev: Ga naar Vorige Slide in huidige presentatie.
+    \item Next: Ga naar volgende slide in huidige presentatie.
+    \item Goto: Ga naar slide nummer X.
+    \item About: Laat een informatie scherm van het programma zien.
+\end{itemize}
+Hierbij moet worden opgemerkt dat in de huidige versie Open altijd de demo
+Presentatie opent. New een leeg scherm geeft zonder mogelijkheden iets aan te
+passen, en Save geen feedback geeft van succes.
+
+\subsection{Gewenste Update}
+Er is ook een verzoek voor het aanpassen van gedrag in de applicatie. Deze geeft
+de volgende aanpassingen in de Probleemanalyse:
+
+Acties: De gebruiker kan per element naar voren gaan in de huidige slide.
+
+Regels: Wanneer alle elementen getoond worden van een slide, dan zal de volgende
+'element' naar de volgende slide gaan.
 
 \section{Ontwerp}
 

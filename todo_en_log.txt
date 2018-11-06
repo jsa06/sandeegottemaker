@@ -1,0 +1,35 @@
+Gezien we nogal op verschillende dagen werken aan het project misschien een idee
+om er voor de zorgen dat we in ieder geval bijhouden wat we uitspoken.
+
+TODO:
+
+[] Verslag:
+    [] Probleem Analyse
+    [] Ontwerp
+    [] Keuze
+    [] SourceCode
+    [] Aanpak (dat is op basis van deze log)
+
+[] Class Diagram Refactoren (zonder nieuwe functionaliteit)
+[] Code updaten naar nieuw Class Diagram
+[] Nieuwe Functionaliteit introduceren in Class Diagram
+[] Nieuwe Functionaliteit introduceren in Code
+
+Log
+===
+30 oktober 2018 Jan Jaap:
+Git Repo aangemaakt en class Diagram van huidige situatie gemaakt.
+
+2 november 2018 Jan Jaap:
+Begin Probleem Analyse gemaakt op basis van huidige Implementatie plus gewenste
+update.
+
+6 November 2018 Jan Jaap:
+
+Class Diagram van Starting point bijgewerkt.
+Missende classes uit eerste versie verwijdert.
+Vooral bedoelt om beelt van huidige applicatie te krijgen.
+
+Probleem Analyse bijgewerkt met Regels voor Stijl.
+Ook het menu toegevoegd aan acties, met opmerking dat bepaalde functies 'nog'
+niet lijken te werken.
