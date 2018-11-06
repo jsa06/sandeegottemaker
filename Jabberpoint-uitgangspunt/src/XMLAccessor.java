@@ -84,7 +84,8 @@ public class XMLAccessor extends Accessor {
 		}
 		catch (ParserConfigurationException pcx) {
 			System.err.println(PCE);
-		}	
+		}
+		
 	}
 
 	protected void loadSlideItem(Slide slide, Element item) {
