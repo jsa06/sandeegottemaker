@@ -54,6 +54,8 @@ Er is een Frame waarin de presentatie getoond wordt.
 Er is een vaste set voorgedefinineerde stijlen.
 
 \subsection{Regels}
+Er is altijd maar 1 presentatie actief in jabberpoint.
+
 De gebruiker kan niet terug navigeren bij de eerste slide.
 
 De gebruiker kan niet vooruit navigeren bij de laatste slide.
@@ -107,7 +109,53 @@ Regels: Wanneer alle elementen getoond worden van een slide, dan zal de volgende
 De update voegt geen nieuwe dingen toe aan het ontwerp.
 
 \section{Ontwerp}
+\todo{Hier heb ik nu deels uitleg staan, maar ook suggesties en ideeen waar
+Gerralt nog naar moet kijken. Design is ook nog niet af, needs input.}
 
+\subsection{CommandFacade}
+MenuController en KeyController bieden beiden de mogelijkheid om commando's aan
+de applicatie te geven. De Facade is de centrale plek waar deze commando's
+worden verzameld. De Facade zal de juiste onderdelen aanroepen om de commando's
+uit te voeren.
+
+\subsection{Presentation}
+JabberPoint laat altijd maar 1 presentatie tegelijk zien.
+
+Voorstel aan Gerralt: Er is ten alle tijden altijd maar 1 Presentatie Object.
+Daarnaast is het even de vraag of Presentation de SlideViewerComponent update,
+of dat SlideViewerComponent om een update aan Presentation vraagt. ben momenteel
+voor de eerste.
+
+Als Presentation een Singleton is kan deze ook de call doen om een bestand te
+openen. Deze wordt gedelegeerd aan wat ik nu de FileHandler noem. Deze zal
+waarschijnlijk Bridge gebruiken om te bepalen hoe een bestand geparsed moet
+worden.
+
+Verder zal er wellicht een generator voor Slides moeten komen. Deze
+verantwoordelijkheid aan Presentation geven is misschien niet verstandig.
+
+Alternatief: Er komt een PresentationController welke mogelijk meerdere
+presentation kan beheren en bijhoud wat de huidige presentatie is. Dit is
+hooguit handig als er in de toekomst een mogelijkheid moet komen om meerdere
+presentatie tegelijk te openen (waar de interface niet op ingesteld is). Maar is
+niet conform de huidige eisen.
+
+\subsubsection{Slide}
+Een presentatie bevat een X aantal Slides. Elke Slide bestaat uit een X aantal
+Slide Items. Conform de text.xml heeft een Slide een default stijl (genaamd
+level in de XML), en elk element kan een apparte stijl krijgen (of dus de
+default gebruiken).
+
+Style is dus meer een strategy Patroon dat afhankelijk van de ingestelde level
+het renderen wordt aangepast bij het terug gegeven.
+
+Het is even kijken hoe JFrame dingen doet, daar heb ik te weinig ervaring mee.
+Het liefst wil je namelijk dat ze dingen terug geven door de keten heen naar
+Presentatie die de update uitvoert.
+
+\subsection{Scheiding}
+Primaire doel is dingen in zoveel mogelijk losse componenten op te delen.
+Vooral verwerking van weergave scheiden.
 
 \section{Keuzen}
 
