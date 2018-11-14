@@ -15,33 +15,32 @@
 \section*{Studentgegevens}
 \begin{description}
 	\item [Cursuscode] IM0102
-	\item Jabberpoint
-    \item Jan Jaap Sandee
-	\item 852025385
-	\item Gerralt Gottemaker
-	\item [Studentnummer] \todo{invullen}
+	\item JabberPoint
+    \item Jan Jaap Sandee --- 852025385
+	\item Gerralt Gottemaker --- 852083852
 \end{description}
+\todo{Verslag op taal- en spellingsfouten controleren}
 
 \section*{Aanpak}
-\todo{<Geef aan hoe jullie de opdracht hebben aangepakt en wie wat heeft gedaan,
-maximaal 1 A-4. Geef expliciet aandacht aan de volgorde van activiteiten>}
+Om de opdracht succesvol af te ronden, is het zaak om goed samen te werken. We hebben het geluk collega's te zijn, wat het communiceren een aanzienlijk stuk gemakkelijker maakt. In dit hoofdstuk staat de aanpak beschreven die we gekozen hebben. De volgorde waarin het opgeschreven is, is ook de volgorde waarin we gewerkt hebben. Verder staat per item beschreven wie hieraan gewerkt heeft. Als niet vermeld wordt wie eraan gewerkt heeft, hebben beide teamgenoten eraan gewerkt.
 
-Allereerst is er een eenvoudig diagram gemaakt van de huidige situatie. Dit ten
-behoeve van geplande refactoring en aanpassingen.
+Er is begonnen met het opzetten van een Git repository waarin Jan Jaap Gerralt en beide examinatoren heeft toegevoegd. Hier is vervolgens de beginsituatie van JabberPoint toegevoegd. Even later is hier ook een begin van het verslag en een TODO lijst aan toegevoegd. Het verslag is toegevoegd omdat het een LaTeX bestand is, welke prima door versiebeheer beheerd kan worden. Verder heeft Gerralt een Google Drive folder gemaakt en Jan Jaap uitgenodigd. Hier zullen diagrammen (met Draw.io) en andere belangrijke bestanden die niet geschikt zijn voor Git versiebeheer worden bijgehouden.
 
-Vervolgens is er een Probleem Analyse gemaakt waarbij alleen is gekeken naar de
-functionaliteit van het systeem. Zonder te kijken naar de code die er al is.
+Hierna heeft Jan Jaap een eenvoudig diagram gemaakt van de huidige situatie van JabberPoint. Dit geeft een duidelijker beeld van de pijnpunten en maakt de geplande refactoring overzichtelijker.
+
+Vervolgens is er een Probleem Analyse gemaakt waarbij alleen is gekeken naar de functionaliteit van het systeem. De zogenaamde Mankala aanpak staat hierbij centraal. Gedurende het maken van de analyse is nog niet gekeken naar bestaande code van JabberPoint, om zo vooroordelen uit te sluiten. Hier is bewust voor gekozen omdat we het idee hebben dat het zo gemakkelijker is om te denken in termen van het domein en niet direct te denken in klassenamen. Jan Jaap heeft hiervan het opzetje gemaakt, welke vervolgens uitgebreid is door Gerralt. Hierna is samen gewerkt aan de uiteindelijke versie van de probleemanalyse.
+
+Aan de hand van de probleemanalyse is een klassendiagram opgebouwd. Hierbij zijn de principes die genoemd worden in het tekstboek gevolgd, waarbij erg gelet is op het principe dat patterns de context creëren van onderliggende patterns. De design principes zoals high cohesion en low coupling staan hierbij natuurlijk ook centraal. In het verslag zijn vervolgens de verschillende (belangrijke) classes en structuren toegelicht.
+\\\\
+\todo{Aanpak keuzen verantwoorden}
+\\\\
+\todo{Aanpak implementatie verantwoorden}
 
 
 \section{Probleemanalyse}
-JabberPoint is een eenvoudige presentatie tool. Op basis van Dingen, Regels, en
-Acties gaan we het programma uitwerken om tot een degelijk ontwerp te komen.
-Hierin kijken we eerst naar de acties in het kader van wat een gebruiker met die
-programma kan doen. Dan de dingen die hier voor worden gebruikt, en als laatste
-de regels waar het aan moet voldoen.
+Om JabberPoint goed te kunnen refactoren, is een probleemanalyse van de casus gemaakt. Deze probleemanalyse is op basis van de Mankala aanpak gedaan. Deze aanpak bestaat uit een aantal stappen, welke een steeds duidelijker beeld van het domein moeten opleveren. In de volgende koppen staan deze stappen uitgewerkt.
 
 \subsection{Dingen}
-
 Er is een Presentatie, deze heeft Slides, en elke Slide heeft een aantal
 elementen welke kunnen bestaan uit text of een afbeelding.
 
