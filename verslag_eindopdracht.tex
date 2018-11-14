@@ -2,9 +2,15 @@
 
 \usepackage{xcolor}
 \usepackage{fancyheadings}
-
+\usepackage{booktabs}
+\usepackage{enumitem}
 
 \newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+
+\renewcommand\labelitemi{-}
+\renewcommand{\figurename}{Figuur}
+\renewcommand{\tablename}{Tabel}
+
 \lhead{Open Universiteit}
 \chead{IM0102, Design patterns}
 \rhead{Eindopdracht}
@@ -24,7 +30,7 @@
 \section*{Aanpak}
 Om de opdracht succesvol af te ronden, is het zaak om goed samen te werken. We hebben het geluk collega's te zijn, wat het communiceren een aanzienlijk stuk gemakkelijker maakt. In dit hoofdstuk staat de aanpak beschreven die we gekozen hebben. De volgorde waarin het opgeschreven is, is ook de volgorde waarin we gewerkt hebben. Verder staat per item beschreven wie hieraan gewerkt heeft. Als niet vermeld wordt wie eraan gewerkt heeft, hebben beide teamgenoten eraan gewerkt.
 
-Er is begonnen met het opzetten van een Git repository waarin Jan Jaap Gerralt en beide examinatoren heeft toegevoegd. Hier is vervolgens de beginsituatie van JabberPoint toegevoegd. Even later is hier ook een begin van het verslag en een TODO lijst aan toegevoegd. Het verslag is toegevoegd omdat het een LaTeX bestand is, welke prima door versiebeheer beheerd kan worden. Verder heeft Gerralt een Google Drive folder gemaakt en Jan Jaap uitgenodigd. Hier zullen diagrammen (met Draw.io) en andere belangrijke bestanden die niet geschikt zijn voor Git versiebeheer worden bijgehouden.
+Er is begonnen met het opzetten van een Git repository waarin Jan Jaap Gerralt en beide examinatoren heeft toegevoegd. Hier is vervolgens de beginsituatie van JabberPoint toegevoegd. Even later is hier ook een begin van het verslag en een TODO lijst aan toegevoegd. Het verslag is toegevoegd omdat het een LaTeX bestand is, welke prima door versiebeheer beheerd kan worden. Verder heeft Gerralt een Google Drive folder gemaakt en Jan Jaap uitgenodigd. Hier zullen diagrammen (met Draw.io) en andere belangrijke bestanden die niet geschikt zijn voor Git versiebeheer worden bijgehouden. Als laatst heeft Gerralt een Project Board aangemaakt waar overzichtelijk de TODO's wat betreft code en documentatie bijgehouden kunnen worden.
 
 Hierna heeft Jan Jaap een eenvoudig diagram gemaakt van de huidige situatie van JabberPoint. Dit geeft een duidelijker beeld van de pijnpunten en maakt de geplande refactoring overzichtelijker.
 
@@ -41,21 +47,82 @@ Aan de hand van de probleemanalyse is een klassendiagram opgebouwd. Hierbij zijn
 Om JabberPoint goed te kunnen refactoren, is een probleemanalyse van de casus gemaakt. Deze probleemanalyse is op basis van de Mankala aanpak gedaan. Deze aanpak bestaat uit een aantal stappen, welke een steeds duidelijker beeld van het domein moeten opleveren. In de volgende koppen staan deze stappen uitgewerkt.
 
 \subsection{Dingen}
-\todo{Lijst in tabel zetten voor overzicht. Template voor tabel halen uit verslag Gerralt opdr 1}
+We beginnen met het vastleggen van de entiteiten van het domein. Deze entiteiten, of "dingen", worden opgesomd in Tabel \ref{table:dingen}. De entiteiten die daar genoemd worden, zijn de entiteiten die van belang zijn voor het domein. Entiteiten die te maken hebben met de gebruikersinterface worden hier niet genoemd.
+\begin{table}[!h]
+\centering
+	\begin{tabular}{lcl}
+	\toprule
+ 	Concept & Sub-concept & Uitleg \\ \midrule
+ 	JabberPoint & - & Het programma. Kan presentaties afspelen. \\
+ 	Presentatie & - & Een enkele presentatie. Bevat slides. \\
+ 	Slide & - & Een pagina. Bevat elementen en een titel.\\
+ 	Element & Tekst & Bevat tekst voor op een slide.\\
+ 	 & Afbeelding & Bevat een afbeelding voor een slide.\\
+ 	Stijl & - & Bevat info over het uiterlijk van een element.\\
+ 	\bottomrule
+	\end{tabular}
+\caption{Lijst van entiteiten (dingen) binnen het domein.}
+\label{table:dingen}
+\end{table}
+\\
+Op het moment zijn er twee typen elementen: elementen die tekst bevatten en elementen die een afbeelding bevatten. Om het systeem zo flexibel mogelijk te maken, zal in het ontwerp rekening gehouden moeten worden met elementen met andere typen. Zo is het bijvoorbeeld denkbaar dat er in de toekomst een video element toegevoegd moet worden of iets dergelijks.
 
-Er is een Presentatie, deze heeft Slides, en elke Slide heeft een aantal
-elementen welke kunnen bestaan uit text of een afbeelding.
+\subsection{Acties}
+\todo{Voor elke actie een aantal vragen beantwoorden. Zie aanpak hieronder}
 
-Texten in een Presentatie hebben een bepaalde stijl.
+Om de acties binnen het domein te kunnen gebruiken voor de analyse en het klassendiagram, is bepaalde informatie nodig. Om deze informatie te vergaren, wordt per actie de volgende vragen beantwoord:
+
+\begin{itemize}[noitemsep]
+\item Wie of wat heeft het initiatief om de actie te starten?
+\item Aan welke regels moet voldaan worden voordat de actie uitgervoerd kan worden?
+\item Wie of wat is gerelateerd aan de actie?
+\item Is er aanvullende informatie nodig om de actie te kunnen uitvoeren?
+\end{itemize}
+
+\todo{Acties hier beschrijven}
+
+De gebruiker kan een bestand openen met daarin een presentatie.
+
+De gebruiker kan naar de volgende en vorige slides gaan.
 
 Er is een menu, welke een aantal acties voor de gebruiker heeft.
 
-Er is een Frame waarin de presentatie getoond wordt.
-
-Er is een vaste set voorgedefinineerde stijlen.
+Het menu bevat de volgende acties:
+\begin{itemize}
+    \item Open: Opent een bestand.
+    \item New: Maak een nieuwe presentatie.
+    \item Save: Sla de huidige presentatie op.
+    \item Exit: Sluit het programma af.
+    \item Prev: Ga naar Vorige Slide in huidige presentatie.
+    \item Next: Ga naar volgende slide in huidige presentatie.
+    \item Goto: Ga naar slide nummer X.
+    \item About: Laat een informatie scherm van het programma zien.
+\end{itemize}
+Hierbij moet worden opgemerkt dat in de huidige versie Open altijd de demo
+Presentatie opent. New een leeg scherm geeft zonder mogelijkheden iets aan te
+passen, en Save geen feedback geeft van succes.
 
 \subsection{Regels}
-\todo{Voor elke actie een aantal vragen beantwoorden. Zie aanpak Mankala / verslag Gerralt opdr 1}
+\todo{Lijst in tabel zetten voor overzicht. Template voor tabel halen uit verslag Gerralt opdr 1}
+
+Er zijn regels waar bepaalde acties aan moeten voldoen voordat de betreffende actie uitgevoerd mag worden. Ook zijn er regels waar het hele systeem aan moet voldoen om succesvol uitgevoerd te kunnen worden. Verder zijn er voor deze opdracht ook relevante regels waar de gebruikersinterface mee te maken krijgt. Al deze regels zijn opgesomd in Tabel \ref{table:regels}. Elke regel bevat ook een korte beschrijving.
+
+\begin{table}[!h]
+\centering
+	\begin{tabular}{ll}
+	\toprule
+ 	Regel & Omschrijving \\ \midrule
+ 	Lorem & Ipsum bla bla \\
+  	\bottomrule
+	\end{tabular}
+\caption{Lijst van regels binnen het domein.}
+\label{table:regels}
+\end{table}
+
+
+Texten in een Presentatie hebben een bepaalde stijl.
+
+Er is een vaste set voorgedefinineerde stijlen.
 
 Er is altijd maar 1 presentatie actief in jabberpoint.
 
@@ -79,28 +146,6 @@ volledig getoond wordt met alle elementen.
 
 Wanneer gebruikt gemaakt wordt van navigatie om direct naar een vorige of
 volgende slide te gaan, dan wordt de slide in being status getoond.
-
-\subsection{Acties}
-\todo{Lijst in tabel zetten voor overzicht. Template voor tabel halen uit verslag Gerralt opdr 1}
-
-De gebruiker kan een bestand openen met daarin een presentatie.
-
-De gebruiker kan naar de volgende en vorige slides gaan.
-
-Het menu bevat de volgende acties:
-\begin{itemize}
-    \item Open: Opent een bestand.
-    \item New: Maak een nieuwe presentatie.
-    \item Save: Sla de huidige presentatie op.
-    \item Exit: Sluit het programma af.
-    \item Prev: Ga naar Vorige Slide in huidige presentatie.
-    \item Next: Ga naar volgende slide in huidige presentatie.
-    \item Goto: Ga naar slide nummer X.
-    \item About: Laat een informatie scherm van het programma zien.
-\end{itemize}
-Hierbij moet worden opgemerkt dat in de huidige versie Open altijd de demo
-Presentatie opent. New een leeg scherm geeft zonder mogelijkheden iets aan te
-passen, en Save geen feedback geeft van succes.
 
 \subsection{Gewenste Update}
 \todo{Kopje verder uitwerken, lopende zinnen maken}
