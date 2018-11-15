@@ -59,6 +59,7 @@ We beginnen met het vastleggen van de entiteiten van het domein. Deze entiteiten
  	Element & Tekst & Bevat tekst voor op een slide.\\
  	 & Afbeelding & Bevat een afbeelding voor een slide.\\
  	Stijl & - & Bevat info over het uiterlijk van een element.\\
+ 	Bestand & XML & Formaat waarin presentaties opgeslagen worden.\\
  	\bottomrule
 	\end{tabular}
 \caption{Lijst van entiteiten (dingen) binnen het domein.}
@@ -66,6 +67,8 @@ We beginnen met het vastleggen van de entiteiten van het domein. Deze entiteiten
 \end{table}
 \\
 Op het moment zijn er twee typen elementen: elementen die tekst bevatten en elementen die een afbeelding bevatten. Om het systeem zo flexibel mogelijk te maken, zal in het ontwerp rekening gehouden moeten worden met elementen met andere typen. Zo is het bijvoorbeeld denkbaar dat er in de toekomst een video element toegevoegd moet worden of iets dergelijks.
+\\\\
+Verder is het belangrijk om andere bestandsformaten alvast te ondersteunen in het ontwerp. Hierdoor behoudt het systeem zijn flexibiliteit. Op het moment wordt alleen XML ondersteund voor zowel het wegschrijven als het lezen. Echter zal in het ontwerp dus rekening gehouden worden met later toe te voegen bestandsformaten zoals JSON. Deze bestandsformaten zullen niet toegevoegd worden in zowel ontwerp als implementatie, echter zullen we bij de keuzen toelichten hoe we wel rekening houden met deze formaten.
 
 \subsection{Acties}
 \todo{Voor elke actie een aantal vragen beantwoorden. Zie aanpak hieronder}
@@ -78,37 +81,48 @@ Om de acties binnen het domein te kunnen gebruiken voor de analyse en het klasse
 \item Is er aanvullende informatie nodig om de actie te kunnen uitvoeren?
 \end{itemize}
 
-In principe geldt voor elke actie dat het initiatief in de handen van de gebruiker ligt. Deze zal elke actie starten middels de grafische user interface. Echter zullen we bij het beantwoorden van de vraag ervan uitgaan dat de gebruiker de betreffende actie al begonnen is. Het initiatief ligt daarom bij de klasse / subroutine binnen het softwaresysteem en deze wordt dan ook genoemd.
-
-\todo{Acties hier beschrijven}
+In principe geldt voor elke actie dat het initiatief in de handen van de gebruiker ligt. Deze zal elke actie starten middels de grafische user interface (GUI). Echter zullen we bij het beantwoorden van de vraag ervan uitgaan dat de gebruiker de betreffende actie al begonnen is. Het initiatief ligt daarom bij de klasse / subroutine binnen het softwaresysteem en deze wordt dan ook genoemd. Om dezelfde reden wordt ook de GUI niet bij elk punt genoemd. Het moge echter duidelijk zijn dat de GUI voor de aansturing van het functionele deel van JabberPoint zorgt.
 
 \subsubsection{Programma starten}
 Wanneer het programma wordt gestart, zal JabberPoint opgestart worden met bepaalde standaard waarden. Bovenop JabberPoint zal een grafische user interface (GUI) gebouwd worden. Hoe de GUI communiceert met JabberPoint, is te vinden in hoofdstuk \ref{sec:ontwerp}. Om deze actie uit te voeren, is het aan te raden om een bestandsnaam mee te geven in de parameters. Wanneer dit niet gebeurt, zal het systeem opstarten met een standaard presentatie. Als aanvullende informatie is het goed om te weten dat de GUI hier los gezien moet worden van JabberPoint. JabberPoint is dus het functionele deel van het programma.
 
 \subsubsection{Presentatie openen}
-De tweede actie is het openen van een presentatie. De actie wordt gestart door het afhandelen van een gebeurtenis uit het menu en zal door moeten druppelen naar het functionele deel van JabberPoint. De actie wordt gestart door het afhandelen van een gebeurtenis uit het menu en zal door moeten druppelen naar het functionele deel van JabberPoint. De GUI, JabberPoint en de Presentatie zijn gerelateerd aan deze actie. Verder moet genoemd worden dat momenteel geen bestand van het systeem gekozen kan worden. JabberPoint zal dus een standaard bestand (test.xml) openen. In het ontwerp zal wel rekening gehouden worden met een mogelijke uitbreiding om meerdere bestandsformaten te ondersteunen.
+\label{subsub:presOpenen}
+De tweede actie is het openen van een presentatie. De actie wordt gestart door het afhandelen van een gebeurtenis uit het menu en zal door moeten druppelen naar het functionele deel van JabberPoint. De actie wordt gestart door het afhandelen van een gebeurtenis uit het menu en zal door moeten druppelen naar het functionele deel van JabberPoint. JabberPoint en de Presentatie zijn gerelateerd aan deze actie. Verder moet genoemd worden dat momenteel geen bestand van het systeem gekozen kan worden. JabberPoint zal dus een standaard bestand (test.xml) openen. In het ontwerp zal wel rekening gehouden worden met een mogelijke uitbreiding om meerdere bestandsformaten te ondersteunen.
 
 \subsubsection{Nieuwe presentatie starten}
 De volgende actie is het starten van een nieuwe presentatie. Deze presentatie is volledig leeg. Wat het starten van de actie en de gerelateerde entiteiten betreft, geldt hetzelfde als bij de actie Presentatie openen. Het is verder goed om te noemen dat het starten van een nieuwe presentatie relatief weinig nut heeft. Er is immers geen functionaliteit om de presentatie aan te passen via de GUI.
 
 \subsubsection{Presentatie opslaan}
-Verder kunnen presentaties worden opgeslagen. Het gaat dan om de presentatie die op dat moment getoond wordt door de GUI. Deze actie wordt wederom gestart door het menu en ook hier geldt dat de actie door moet druppelen naar het functionele deel. Het opslaan lukt alleen als er een presentatie geopend is. Gelukkig is er altijd een presentatie geopend, dus dit mag geen problemen opleveren. Ook hier geldt dat de GUI, JabberPoint en de Presentatie gerelateerd zijn. Verder moet worden opgemerkt dat er geen feedback gegeven wordt wanneer het opslaan lukt. Dit is echter puur functioneel. Het zal dus niet in het ontwerp terug komen, maar wel in de implementatie.
+Verder kunnen presentaties worden opgeslagen. Het gaat dan om de presentatie die op dat moment getoond wordt door de GUI. Deze actie wordt wederom gestart door het menu en ook hier geldt dat de actie door moet druppelen naar het functionele deel. Het opslaan lukt alleen als er een presentatie geopend is. Gelukkig is er altijd een presentatie geopend, dus dit mag geen problemen opleveren. Ook hier geldt dat JabberPoint, de Presentatie en het bestandsformaat gerelateerd zijn. Verder moet worden opgemerkt dat er geen feedback gegeven wordt wanneer het opslaan lukt. Dit is echter puur functioneel. Het zal dus niet in het ontwerp terug komen, maar wel in de implementatie. Ook hier wordt in het ontwerp rekening gehouden met eventuele later toe te voegen bestandsformaten anders dan XML.
+
+\subsubsection{Slide weergeven}
+\label{subsub:volgendeSlide}
+Wanneer het programma wordt gestart, wordt een presentatie geopend (zie kopje \ref{subsub:presOpenen}). Wanneer dit gebeurt, wordt de eerste slide van deze presentatie weergegeven op het scherm. In eerste instantie wordt alleen de titel van deze slide weergegeven. Hoe de overige items op het scherm moeten komen, wordt geschreven in een aantal van de volgende kopjes. Deze actie is dus gerelateerd van de actie welke het openen van een presentatie beschrijft. Ook JabberPoint en de Presentatie zijn gerelateerd. Verder gelden er enkele regels waar eerst aan voldaan moet worden voordat deze actie uitgevoerd kan worden. Deze regels worden in paragraaf \ref{sub:regels} genoemd.
+
+\subsubsection{Volgende item van slide weergeven}
+\label{subsub:volgendeItem}
+Deze actie komt voort uit de Feature request.
+
+\subsubsection{Laatste item van slide verbergen}
+Ook deze actie komt voort uit de Feature request.
+
+\subsubsection{Alle items van slide in \'{e}\'{e}n keer tonen}
+\label{subsub:alleItems}
+
+\subsubsection{Alle items van slide in \'{e}\'{e}n keer verbergen}
 
 \subsubsection{Volgende slide}
+Naar de volgende slide gaan is de volgende actie. Deze actie zal gestart worden wanneer het volgende item van de slide weergegeven moet worden, maar deze niet meer beschikbaar is. Wanneer dit gebeurt, zal er gekeken worden of er nog een slide beschikbaar is. Mocht dit het geval zijn, zal deze worden getoond zoals beschreven in het kopje \ref{subsub:volgendeSlide}. Vervolgens kan de actie uit het kopje \ref{subsub:volgendeItem} gebruikt worden om de items te tonen of de actie uit kopje \ref{subsub:alleItems} om alle items in \'{e}\'{e}n keer te tonen. Deze actie moet dus, voordat het uitgevoerd kan worden, aan bovenstaande regels voldoen. De bovengenoemde acties zijn dus gerelateerd aan deze actie. Ook de GUI en de entiteiten JabberPoint en de Presentatie zijn gerelateerd.
 
 \subsubsection{Vorige slide}
 
 \subsubsection{Naar specifieke slide}
 
-\subsubsection{Volgende item van slide weergeven}
-Deze actie komt voort uit de Feature request.
-
-\subsubsection{Nieuwste item van slide verbergen}
-Ook deze actie komt voort uit de Feature request.
-
 \subsubsection{Informatie "Over / about" weergeven}
 
 \subsection{Regels}
+\label{sub:regels}
 \todo{Lijst in tabel zetten voor overzicht.}
 
 Er zijn regels waar bepaalde acties aan moeten voldoen voordat de betreffende actie uitgevoerd mag worden. Ook zijn er regels waar het hele systeem aan moet voldoen om succesvol uitgevoerd te kunnen worden. Verder zijn er voor deze opdracht ook relevante regels waar de gebruikersinterface mee te maken krijgt. Al deze regels zijn opgesomd in Tabel \ref{table:regels}. Elke regel bevat ook een korte beschrijving.
@@ -119,7 +133,9 @@ Er zijn regels waar bepaalde acties aan moeten voldoen voordat de betreffende ac
 	\toprule
  	Regel & Omschrijving \\ \midrule
  	Huidige presentatie & Er is ten alle tijden een presentatie open. \\
- 	Ipsum & bla bla \\
+ 	Minstens \'{e}\'{e}n slide & Om een presentatie weer te kunnen geven, moet er ten \\& minste \'{e}\'{e}n slide aanwezig zijn in de presentatie.\\
+ 	Volgende slide & De volgende slide is alleen beschikbaar wanneer alle items \\& zichtbaar zijn en er een volgende slide beschikbaar is.\\
+ 	Vorige slide & De vorige slide is alleen beschikbaar wanneer alleen de \\& titel zichtbaar is en er een vorige slide beschikbaar is. \\
   	\bottomrule
 	\end{tabular}
 \caption{Lijst van regels binnen het domein.}
