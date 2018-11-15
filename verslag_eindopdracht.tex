@@ -53,11 +53,12 @@ We beginnen met het vastleggen van de entiteiten van het domein. Deze entiteiten
 	\begin{tabular}{lcl}
 	\toprule
  	Concept & Sub-concept & Uitleg \\ \midrule
- 	JabberPoint & - & Het programma. Kan presentaties afspelen. \\
- 	Presentatie & - & Een enkele presentatie. Bevat slides. \\
+ 	JabberPoint & - & Het programma. Kan presentaties afspelen.\\
+ 	Presentatie & - & Een enkele presentatie. Bevat slides.\\
  	Slide & - & Een pagina. Bevat elementen en een titel.\\
  	Element & Tekst & Bevat tekst voor op een slide.\\
  	 & Afbeelding & Bevat een afbeelding voor een slide.\\
+ 	Level & - & Het level van een element bepaalt wie de ouder is.\\
  	Stijl & - & Bevat info over het uiterlijk van een element.\\
  	Bestand & XML & Formaat waarin presentaties opgeslagen worden.\\
  	\bottomrule
@@ -71,8 +72,6 @@ Op het moment zijn er twee typen elementen: elementen die tekst bevatten en elem
 Verder is het belangrijk om andere bestandsformaten alvast te ondersteunen in het ontwerp. Hierdoor behoudt het systeem zijn flexibiliteit. Op het moment wordt alleen XML ondersteund voor zowel het wegschrijven als het lezen. Echter zal in het ontwerp dus rekening gehouden worden met later toe te voegen bestandsformaten zoals JSON. Deze bestandsformaten zullen niet toegevoegd worden in zowel ontwerp als implementatie, echter zullen we bij de keuzen toelichten hoe we wel rekening houden met deze formaten.
 
 \subsection{Acties}
-\todo{Voor elke actie een aantal vragen beantwoorden. Zie aanpak hieronder}
-
 Om de acties binnen het domein te kunnen gebruiken voor de analyse en het klassendiagram, is bepaalde informatie nodig. Om deze informatie te vergaren, wordt per actie de volgende vragen beantwoord:
 \begin{itemize}[noitemsep]
 \item Wie of wat heeft het initiatief om de actie te starten?
@@ -102,7 +101,7 @@ Wanneer het programma wordt gestart, wordt een presentatie geopend (zie kopje \r
 
 \subsubsection{Volgende item van slide weergeven}
 \label{subsub:volgendeItem}
-Deze actie komt voort uit de Feature request.
+Dit is een van de acties die voortkomt uit de Feature request. Wanneer er op het pijltje naar beneden gedrukt wordt, zal het volgende item worden weergegeven. Hoe het item wordt weergegeven, hangt volledig af van de Stijl van een item. Alleen level 1 items zullen deze actie ondersteunen. Alle onderliggende items van level 1 items worden tegelijkertijd getekend op het moment dat deze actie uitgevoerd wordt. Wanneer deze actie vervolgens nog een keer uitgevoerd wordt, wordt het volgende level 1 item plus onderliggende items getekend. Gerelateerd aan deze actie zijn de entiteiten JabberPoint, de Presentatie, Slide, item (Element) en Stijl. Verder is de actie uit kopje \ref{subsub:volgendeSlide} gerelateerd.
 
 \subsubsection{Laatste item van slide verbergen}
 Ook deze actie komt voort uit de Feature request.
@@ -113,6 +112,7 @@ Ook deze actie komt voort uit de Feature request.
 \subsubsection{Alle items van slide in \'{e}\'{e}n keer verbergen}
 
 \subsubsection{Volgende slide}
+\label{subsub:volgendeSlide}
 Naar de volgende slide gaan is de volgende actie. Deze actie zal gestart worden wanneer het volgende item van de slide weergegeven moet worden, maar deze niet meer beschikbaar is. Wanneer dit gebeurt, zal er gekeken worden of er nog een slide beschikbaar is. Mocht dit het geval zijn, zal deze worden getoond zoals beschreven in het kopje \ref{subsub:volgendeSlide}. Vervolgens kan de actie uit het kopje \ref{subsub:volgendeItem} gebruikt worden om de items te tonen of de actie uit kopje \ref{subsub:alleItems} om alle items in \'{e}\'{e}n keer te tonen. Deze actie moet dus, voordat het uitgevoerd kan worden, aan bovenstaande regels voldoen. De bovengenoemde acties zijn dus gerelateerd aan deze actie. Ook de GUI en de entiteiten JabberPoint en de Presentatie zijn gerelateerd.
 
 \subsubsection{Vorige slide}
@@ -132,10 +132,12 @@ Er zijn regels waar bepaalde acties aan moeten voldoen voordat de betreffende ac
 	\begin{tabular}{ll}
 	\toprule
  	Regel & Omschrijving \\ \midrule
- 	Huidige presentatie & Er is ten alle tijden een presentatie open. \\
+ 	Huidige presentatie & Er is ten alle tijden een presentatie open.\\
  	Minstens \'{e}\'{e}n slide & Om een presentatie weer te kunnen geven, moet er ten \\& minste \'{e}\'{e}n slide aanwezig zijn in de presentatie.\\
+ 	Level van items & Level 1 items zijn de root items. Hogere levels zijn \\& onderliggende items van level 1 items.\\
  	Volgende slide & De volgende slide is alleen beschikbaar wanneer alle items \\& zichtbaar zijn en er een volgende slide beschikbaar is.\\
- 	Vorige slide & De vorige slide is alleen beschikbaar wanneer alleen de \\& titel zichtbaar is en er een vorige slide beschikbaar is. \\
+ 	Vorige slide & De vorige slide is alleen beschikbaar wanneer alleen de \\& titel zichtbaar is en er een vorige slide beschikbaar is.\\
+ 	Level bepalend & Het level van een element bepaalt wie de ouder van dat \\& element is. Hoe hoger het level, hoe dieper de structuur.\\
   	\bottomrule
 	\end{tabular}
 \caption{Lijst van regels binnen het domein.}
