@@ -83,8 +83,14 @@ In principe geldt voor elke actie dat het initiatief in de handen van de gebruik
 \todo{Acties hier beschrijven}
 
 \subsubsection{Programma starten}
+Wanneer het programma wordt gestart, zal JabberPoint opgestart worden met bepaalde standaard waarden. Bovenop JabberPoint zal een grafische user interface (GUI) gebouwd worden. Hoe de GUI communiceert met JabberPoint, is te vinden in hoofdstuk \ref{sec:ontwerp}. Om deze actie uit te voeren, is het aan te raden om een bestandsnaam mee te geven in de parameters. Wanneer dit niet gebeurt, zal het systeem opstarten met een standaard presentatie. Als aanvullende informatie is het goed om te weten dat de GUI hier los gezien moet worden van JabberPoint. JabberPoint is dus het functionele deel van het programma.
+
 \subsubsection{Presentatie openen}
+De tweede actie is het openen van een presentatie. De actie wordt gestart door het afhandelen van een gebeurtenis uit het menu en zal door moeten druppelen naar het functionele deel van JabberPoint. De actie wordt gestart door het afhandelen van een gebeurtenis uit het menu en zal door moeten druppelen naar het functionele deel van JabberPoint. De GUI, JabberPoint en de Presentatie zijn gerelateerd aan deze actie. Verder moet genoemd worden dat momenteel geen bestand van het systeem gekozen kan worden. JabberPoint zal dus een standaard bestand (test.xml) openen. In het ontwerp zal wel rekening gehouden worden met een mogelijke uitbreiding om meerdere bestandsformaten te ondersteunen.
+
 \subsubsection{Nieuwe presentatie starten}
+De volgende actie is het starten van een nieuwe presentatie. Deze presentatie is volledig leeg. Wat het starten van de actie en de gerelateerde entiteiten betreft, geldt hetzelfde als bij de actie Presentatie openen. Het is verder goed om te noemen dat het starten van een nieuwe presentatie relatief weinig nut heeft. Er is immers geen functionaliteit om de presentatie aan te passen via de GUI.
+
 \subsubsection{Presentatie opslaan}
 \subsubsection{Volgende slide}
 \subsubsection{Vorige slide}
@@ -156,6 +162,7 @@ Regels: Wanneer alle elementen getoond worden van een slide, dan zal de volgende
 De update voegt geen nieuwe dingen toe aan het ontwerp.
 
 \section{Ontwerp}
+\label{sec:ontwerp}
 \todo{Hier heb ik nu deels uitleg staan, maar ook suggesties en ideeen waar
 Gerralt nog naar moet kijken. Design is ook nog niet af, needs input.}
 \\
