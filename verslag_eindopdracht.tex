@@ -6,6 +6,7 @@
 \usepackage{enumitem}
 
 \newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+\newcommand{\1}[0]{\'{e}\'{e}n}
 
 \renewcommand\labelitemi{-}
 \renewcommand{\figurename}{Figuur}
@@ -82,6 +83,8 @@ Om de acties binnen het domein te kunnen gebruiken voor de analyse en het klasse
 
 In principe geldt voor elke actie dat het initiatief in de handen van de gebruiker ligt. Deze zal elke actie starten middels de grafische user interface (GUI). Echter zullen we bij het beantwoorden van de vraag ervan uitgaan dat de gebruiker de betreffende actie al begonnen is. Het initiatief ligt daarom bij de klasse / subroutine binnen het softwaresysteem en deze wordt dan ook genoemd. Om dezelfde reden wordt ook de GUI niet bij elk punt genoemd. Het moge echter duidelijk zijn dat de GUI voor de aansturing van het functionele deel van JabberPoint zorgt.
 
+Deze sectie is vrij uitgebreid met als simpele reden dat deze sectie in principe de gehele functionele werking van JabberPoint toelicht. Hierdoor hoeft er in hoofdstuk \ref{sec:source} alleen aandacht besteed te worden aan de technische werking van het programma.
+
 \subsubsection{Programma starten}
 Wanneer het programma wordt gestart, zal JabberPoint opgestart worden met bepaalde standaard waarden. Bovenop JabberPoint zal een grafische user interface (GUI) gebouwd worden. Hoe de GUI communiceert met JabberPoint, is te vinden in hoofdstuk \ref{sec:ontwerp}. Om deze actie uit te voeren, is het aan te raden om een bestandsnaam mee te geven in de parameters. Wanneer dit niet gebeurt, zal het systeem opstarten met een standaard presentatie. Als aanvullende informatie is het goed om te weten dat de GUI hier los gezien moet worden van JabberPoint. JabberPoint is dus het functionele deel van het programma.
 
@@ -96,7 +99,7 @@ De volgende actie is het starten van een nieuwe presentatie. Deze presentatie is
 Verder kunnen presentaties worden opgeslagen. Het gaat dan om de presentatie die op dat moment getoond wordt door de GUI. Deze actie wordt wederom gestart door het menu en ook hier geldt dat de actie door moet druppelen naar het functionele deel. Het opslaan lukt alleen als er een presentatie geopend is. Gelukkig is er altijd een presentatie geopend, dus dit mag geen problemen opleveren. Ook hier geldt dat JabberPoint, de Presentatie en het bestandsformaat gerelateerd zijn. Verder moet worden opgemerkt dat er geen feedback gegeven wordt wanneer het opslaan lukt. Dit is echter puur functioneel. Het zal dus niet in het ontwerp terug komen, maar wel in de implementatie. Ook hier wordt in het ontwerp rekening gehouden met eventuele later toe te voegen bestandsformaten anders dan XML.
 
 \subsubsection{Slide weergeven}
-\label{subsub:volgendeSlide}
+\label{subsub:slideTonen}
 Wanneer het programma wordt gestart, wordt een presentatie geopend (zie kopje \ref{subsub:presOpenen}). Wanneer dit gebeurt, wordt de eerste slide van deze presentatie weergegeven op het scherm. In eerste instantie wordt alleen de titel van deze slide weergegeven. Hoe de overige items op het scherm moeten komen, wordt geschreven in een aantal van de volgende kopjes. Deze actie is dus gerelateerd van de actie welke het openen van een presentatie beschrijft. Ook JabberPoint en de Presentatie zijn gerelateerd. Verder gelden er enkele regels waar eerst aan voldaan moet worden voordat deze actie uitgevoerd kan worden. Deze regels worden in paragraaf \ref{sub:regels} genoemd.
 
 \subsubsection{Volgende item van slide weergeven}
@@ -104,26 +107,32 @@ Wanneer het programma wordt gestart, wordt een presentatie geopend (zie kopje \r
 Dit is een van de acties die voortkomt uit de Feature request. Wanneer er op het pijltje naar beneden gedrukt wordt, zal het volgende item worden weergegeven. Hoe het item wordt weergegeven, hangt volledig af van de Stijl van een item. Alleen level 1 items zullen deze actie ondersteunen. Alle onderliggende items van level 1 items worden tegelijkertijd getekend op het moment dat deze actie uitgevoerd wordt. Wanneer deze actie vervolgens nog een keer uitgevoerd wordt, wordt het volgende level 1 item plus onderliggende items getekend. Gerelateerd aan deze actie zijn de entiteiten JabberPoint, de Presentatie, Slide, item (Element) en Stijl. Verder is de actie uit kopje \ref{subsub:volgendeSlide} gerelateerd.
 
 \subsubsection{Laatste item van slide verbergen}
-Ook deze actie komt voort uit de Feature request.
+\label{subsub:vorigeItem}
+Ook deze actie komt voort uit de Feature request en hangt nauw samen met de vorige actie. Wanneer er op het pijltje naar boven wordt gedrukt, wordt het laatst verschenen level 1 item weer verborgen. Ook hier geldt dat alle onderliggende items (de kinderen van het betreffende level 1 item) worden verborgen. Gerelateerd aan deze actie zijn JabberPoint, de Presentatie, Slide en item (Element). Ook hier geldt dat er een andere actie gerelateerd is, namelijk de actie uit kopje \ref{subsub:vorigeSlide}.
 
-\subsubsection{Alle items van slide in \'{e}\'{e}n keer tonen}
+\subsubsection{Alle items van slide in \1 keer tonen}
 \label{subsub:alleItems}
+Het is ook mogelijk om alle items van een bepaalde slide in \1 keer te tonen. Wederom gaat het hier om een actie die voortkomt uit de Feature request. Wanneer op het pijltje naar rechts gedrukt wordt, worden alle nog verborgen items van een slide allemaal weergegeven. In principe is dit niets anders dan een aantal keer de actie van kopje \ref{subsub:volgendeItem} aanroepen. Daarom geldt dat alle gerelateerde regels en entiteiten hetzelfde zijn.
 
-\subsubsection{Alle items van slide in \'{e}\'{e}n keer verbergen}
+\subsubsection{Alle items van slide in \1 keer verbergen}
+De laatste actie die uit de Feature request komt is het in \1 keer verbergen van alle op dat moment zichtbare items. Deze actie wordt uitgevoerd wanneer er op het pijltje naar links gedrukt wordt. Net als bij de vorige actie, geldt hier dat deze actie niets anders is dan een aantal keer een bepaalde actie uitvoeren, namelijk de actie van kopje \ref{subsub:vorigeItem}. Ook hier geldt daarom dat alle gerelateerde regels en entiteiten hetzelfde zijn.
 
 \subsubsection{Volgende slide}
 \label{subsub:volgendeSlide}
-Naar de volgende slide gaan is de volgende actie. Deze actie zal gestart worden wanneer het volgende item van de slide weergegeven moet worden, maar deze niet meer beschikbaar is. Wanneer dit gebeurt, zal er gekeken worden of er nog een slide beschikbaar is. Mocht dit het geval zijn, zal deze worden getoond zoals beschreven in het kopje \ref{subsub:volgendeSlide}. Vervolgens kan de actie uit het kopje \ref{subsub:volgendeItem} gebruikt worden om de items te tonen of de actie uit kopje \ref{subsub:alleItems} om alle items in \'{e}\'{e}n keer te tonen. Deze actie moet dus, voordat het uitgevoerd kan worden, aan bovenstaande regels voldoen. De bovengenoemde acties zijn dus gerelateerd aan deze actie. Ook de GUI en de entiteiten JabberPoint en de Presentatie zijn gerelateerd.
+Naar de volgende slide gaan is de volgende actie. Deze actie zal gestart worden wanneer het volgende item van de slide weergegeven moet worden, maar deze niet meer beschikbaar is. Wanneer dit gebeurt, zal er gekeken worden of er nog een slide beschikbaar is. Mocht dit het geval zijn, zal deze worden getoond zoals beschreven in het kopje \ref{subsub:slideTonen}. Vervolgens kan de actie uit het kopje \ref{subsub:volgendeItem} gebruikt worden om de items te tonen of de actie uit kopje \ref{subsub:alleItems} om alle items in \1 keer te tonen. Deze actie moet dus, voordat het uitgevoerd kan worden, aan bovenstaande regels voldoen. De bovengenoemde acties zijn dus gerelateerd aan deze actie. Ook de GUI en de entiteiten JabberPoint en de Presentatie zijn gerelateerd.
 
 \subsubsection{Vorige slide}
+\label{subsub:vorigeSlide}
+Naast naar de volgende slide gaan is de tegenovergestelde actie ook mogelijk. Wanneer de actie uit kopje \ref{subsub:vorigeItem} (vorige item) uitgevoerd wordt zonder dat er nog items op het scherm zichtbaar zijn, wordt er naar de vorige slide genavigeerd. Hierbij moet aan de regel voldaan worden dat er een vorige slide beschikbaar is. Mocht er niet aan deze regel voldaan worden, zal de actie simpelweg niet uitgevoerd worden. De genoemde regel is gerelateerd aan deze actie, evenals de genoemde actie. Verder zijn de entiteiten JabberPoint, Presentatie en Slide gerelateerd.
 
 \subsubsection{Naar specifieke slide}
+Ook is het mogelijk om rechtstreeks naar een specifieke slide te navigeren. De GUI zal vragen om een getal, welke vervolgens gecontroleerd wordt. Als blijkt dat de gebruiker een ongeldig getal heeft ingevuld (ongeldig betekent lager dan 1 of hoger dan het aantal slides), wordt de actie niet uitgevoerd. Mocht het een geldig getal betreffen, zal het systeem de juiste slide tonen zoals beschreven in het kopje \ref{subsub:slideTonen}. Deze actie is dan ook gerelateerd. Verder zijn de entiteiten JabberPoint, Presentatie en Slide gerelateerd, evenals de bovengenoemde regel.
 
 \subsubsection{Informatie "Over / about" weergeven}
+Als laatst is het mogelijk om bepaalde auteurs- en versieinformatie te tonen. Dit zal gedaan worden via het menu van de GUI. De GUI zal vragen aan JabberPoint wat de te tonen informatie is en deze tonen. Daarom is alleen de entiteit JabberPoint gerelateerd. Er is verder geen informatie nodig om deze actie uit te voeren. 
 
 \subsection{Regels}
 \label{sub:regels}
-\todo{Lijst in tabel zetten voor overzicht.}
 
 Er zijn regels waar bepaalde acties aan moeten voldoen voordat de betreffende actie uitgevoerd mag worden. Ook zijn er regels waar het hele systeem aan moet voldoen om succesvol uitgevoerd te kunnen worden. Verder zijn er voor deze opdracht ook relevante regels waar de gebruikersinterface mee te maken krijgt. Al deze regels zijn opgesomd in Tabel \ref{table:regels}. Elke regel bevat ook een korte beschrijving.
 
@@ -133,10 +142,11 @@ Er zijn regels waar bepaalde acties aan moeten voldoen voordat de betreffende ac
 	\toprule
  	Regel & Omschrijving \\ \midrule
  	Huidige presentatie & Er is ten alle tijden een presentatie open.\\
- 	Minstens \'{e}\'{e}n slide & Om een presentatie weer te kunnen geven, moet er ten \\& minste \'{e}\'{e}n slide aanwezig zijn in de presentatie.\\
+ 	Minstens \1 slide & Om een presentatie weer te kunnen geven, moet er ten \\& minste \1 slide aanwezig zijn in de presentatie.\\
  	Level van items & Level 1 items zijn de root items. Hogere levels zijn \\& onderliggende items van level 1 items.\\
  	Volgende slide & De volgende slide is alleen beschikbaar wanneer alle items \\& zichtbaar zijn en er een volgende slide beschikbaar is.\\
  	Vorige slide & De vorige slide is alleen beschikbaar wanneer alleen de \\& titel zichtbaar is en er een vorige slide beschikbaar is.\\
+ 	Specifieke slide & Er kan alleen naar een specifieke slide genavigeerd worden \\& wanneer er een geldige slidenummer is opgegeven.\\
  	Level bepalend & Het level van een element bepaalt wie de ouder van dat \\& element is. Hoe hoger het level, hoe dieper de structuur.\\
   	\bottomrule
 	\end{tabular}
@@ -244,6 +254,7 @@ Vooral verwerking van weergave scheiden.
 
 
 \section{Sourcecode}
+\label{sec:source}
 \todo{Sourcecode nader beschrijven}
 \\
 \todo{Proces van refactoring beschrijven}
