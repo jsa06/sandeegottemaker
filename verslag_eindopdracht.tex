@@ -35,9 +35,29 @@ Er is begonnen met het opzetten van een Git repository waarin Jan Jaap Gerralt e
 
 Hierna heeft Jan Jaap een eenvoudig diagram gemaakt van de huidige situatie van JabberPoint. Dit geeft een duidelijker beeld van de pijnpunten en maakt de geplande refactoring overzichtelijker.
 
-Vervolgens is er een Probleem Analyse gemaakt waarbij alleen is gekeken naar de functionaliteit van het systeem. De zogenaamde Mankala aanpak staat hierbij centraal. Gedurende het maken van de analyse is nog niet gekeken naar bestaande code van JabberPoint, om zo vooroordelen uit te sluiten. Hier is bewust voor gekozen omdat we het idee hebben dat het zo gemakkelijker is om te denken in termen van het domein en niet direct te denken in klassenamen. Jan Jaap heeft hiervan het opzetje gemaakt, welke vervolgens uitgebreid is door Gerralt. Hierna is samen gewerkt aan de uiteindelijke versie van de probleemanalyse.
+Vervolgens is er een Probleem Analyse gemaakt waarbij alleen is gekeken naar de
+functionaliteit van het systeem. De zogenaamde Mankala aanpak staat hierbij
+centraal. Gedurende het maken van de analyse is nog niet gekeken naar bestaande
+code van JabberPoint, om zo vooroordelen uit te sluiten. Hier is bewust voor
+gekozen omdat we het idee hebben dat het zo gemakkelijker is om te denken in
+termen van het domein en niet direct te denken in klassenamen. Jan Jaap heeft
+hiervan het opzetje gemaakt, welke vervolgens uitgebreid is door Gerralt. Hierna
+is samen gewerkt aan de uiteindelijke versie van de probleemanalyse. Beiden
+kwamen tot vergelijkbare conclusies wat betreft de Probleem Analyse.
 
-Aan de hand van de probleemanalyse is een klassendiagram opgebouwd. Hierbij zijn de principes die genoemd worden in het tekstboek gevolgd, waarbij erg gelet is op het principe dat patterns de context creëren van onderliggende patterns. De design principes zoals high cohesion en low coupling staan hierbij natuurlijk ook centraal. In het verslag zijn vervolgens de verschillende (belangrijke) classes en structuren toegelicht.
+Aan de hand van de probleemanalyse is een klassendiagram opgebouwd. Hierbij zijn
+de principes die genoemd worden in het tekstboek gevolgd, waarbij erg gelet is
+op het principe dat patterns de context creëren van onderliggende patterns. De
+design principes zoals high cohesion en low coupling staan hierbij natuurlijk
+ook centraal. In het verslag zijn vervolgens de verschillende (belangrijke)
+classes en structuren toegelicht.
+
+Het maken van de klassendiagram is gedaan in persoon met een diagram op een
+grootscherm en veel overleg over het ontwerp. hierin is in fasen gewerkt om tot
+een ontwerp te komen. Beginnend bij de Gui en de Facade, hier kwam vervolgens de
+persentatie zelf bij. Als laatste hebben we gekeken naar het afhandelen van
+bestanden.
+
 \\\\
 \todo{Aanpak keuzen verantwoorden}
 \\
@@ -178,60 +198,83 @@ De update voegt geen nieuwe dingen toe aan het ontwerp.
 
 \section{Ontwerp}
 \label{sec:ontwerp}
-\todo{Hier heb ik nu deels uitleg staan, maar ook suggesties en ideeen waar
-Gerralt nog naar moet kijken. Design is ook nog niet af, needs input.}
-\\
-\todo{Goed kijken naar dit hoofdstuk}
-\\
-\todo{Meer TODO's maken voor suggesties JJ richting Gerralt}
+Het ontwerp is op te delen in vijf expliciete packages die elk een eigen
+verantwoordelijkheid hebben. JabberPoint de main class instantieerd alleen de
+SlideViewerFrame.
 
-\subsection{CommandFacade}
-MenuController en KeyController bieden beiden de mogelijkheid om commando's aan
-de applicatie te geven. De Facade is de centrale plek waar deze commando's
-worden verzameld. De Facade zal de juiste onderdelen aanroepen om de commando's
-uit te voeren.
+\subsection{GUI}
+De GUI is alleen veranwoordelijk voor de weergave aan de gebruiker.
+SlideViewerFrame bouwt de gehele interface op. De Gui heeft geen idee van de
+huidige presentaties, maar vertrouwd op een observer om te weten wanneer er iets
+nieuws getoond moet worden.
 
-\subsection{Presentation}
-JabberPoint laat altijd maar 1 presentatie tegelijk zien.
+\subsection{Controllers}
+Belangrijkste controller is de JabberPointFacade, deze behandelt de verder
+commands naar de rest van het programma voor de GUI. JabberPointFacade is ook
+een Singleton class gezien er ten alle tijde maar 1 instantie van hoeft te
+zijn.
 
-Voorstel aan Gerralt: Er is ten alle tijden altijd maar 1 Presentatie Object.
-Daarnaast is het even de vraag of Presentation de SlideViewerComponent update,
-of dat SlideViewerComponent om een update aan Presentation vraagt. ben momenteel
-voor de eerste.
+De Facade registreert ook de Observer voor SlideViewerComponent. Dus de
+koppeling tussen Presentation en SlideViewerComponent bestaat alleen maar via de
+observer pattern.
 
-Als Presentation een Singleton is kan deze ook de call doen om een bestand te
-openen. Deze wordt gedelegeerd aan wat ik nu de FileHandler noem. Deze zal
-waarschijnlijk Bridge gebruiken om te bepalen hoe een bestand geparsed moet
-worden.
+\subsection{Models}
+Models houden zich alleen bezig met het ordenen van de data. Belangijkste
+hierarchie is Presentation -> Slide -> SlideItem. In een presentatie kunnen
+SlideItems een level hebben. Dit level wordt bepaald door de mogelijkheid voor
+SlideItems om zelf onderliggende SlideItems te bevatten.
 
-Verder zal er wellicht een generator voor Slides moeten komen. Deze
-verantwoordelijkheid aan Presentation geven is misschien niet verstandig.
+Styles zijn een vast gegeven en worsen in een ObjectPool bewaard en bij creatie
+van slideitems toegewezen.
 
-Alternatief: Er komt een PresentationController welke mogelijk meerdere
-presentation kan beheren en bijhoud wat de huidige presentatie is. Dit is
-hooguit handig als er in de toekomst een mogelijkheid moet komen om meerdere
-presentatie tegelijk te openen (waar de interface niet op ingesteld is). Maar is
-niet conform de huidige eisen.
+Presentation is een observable, wanneer deze wijzigt van slide dan wordt de
+SlideViewerComponent op de hoogte gezet dat er nieuwe inhoud is.
 
-\subsubsection{Slide}
-Een presentatie bevat een X aantal Slides. Elke Slide bestaat uit een X aantal
-Slide Items. Conform de text.xml heeft een Slide een default stijl (genaamd
-level in de XML), en elk element kan een apparte stijl krijgen (of dus de
-default gebruiken).
+\subsection{Factories}
+De Factories zijn verantwoordelijk voor het aanmaken van alle objecten. De
+FileParserFactory en FileEncoderFactory zijn er zodat de juiste strategy wordt
+toegepast op een file. Gezien de Strategy Pattern geen rekening houd met
+objectcreatie.
 
-Style is dus meer een strategy Patroon dat afhankelijk van de ingestelde level
-het renderen wordt aangepast bij het terug gegeven.
+De Factories voor de Presentaties zijn er om creatie te scheiden. Er was een
+argument geweest voor Presentaties die zijn eigen slides aanmaakt, en slides
+die zijn eigen Items aanmaakt, echter dit zou betekenen dat de Presentatie
+rechtstreeks toegang moet hebben tot de filedata wat niet wenselijk is.
 
-Het is even kijken hoe JFrame dingen doet, daar heb ik te weinig ervaring mee.
-Het liefst wil je namelijk dat ze dingen terug geven door de keten heen naar
-Presentatie die de update uitvoert.
+Verder is er een ObjectPool voor de Styles. Deze pattern wordt gebruikt om te
+waarborgen dat er maar vijf stijlen beschikbaar zijn. Anders is er het risico
+dat er voor elke nieuwe slideitem er een nieuw object wordt aangemaakt.
 
-\subsection{Scheiding}
-Primaire doel is dingen in zoveel mogelijk losse componenten op te delen.
-Vooral verwerking van weergave scheiden.
+\subsection{FileHandlers}
+De Filehandler is op zijn beurt weer een soort Facade voor de JabberFacade.
+Namelijk JabberFacade heeft geen weet van hoe presentaties worden uitgelezen of
+opgeslagen. Deze verteld gewoon aan de FileHandler wat er moet gebeuren.
+
+Hierbij is er een concrete splitsing gedaan tussen het uitlezen en het opslaan.
+Daarmee kunnen apparte parsers en encoders, dit omdat deze taken asymetrisch
+zijn.
 
 \section{Keuzen}
 \todo{Gemaakte keuzen verantwoorden op twee gebieden: Ontwerp en Implementatie}
+\subsection{Facade}
+De Facase was ons uitgangspunt bij het ontwerpen van deze tool. Alle acties
+waren gebruiker gestuurd welke op twee manieren aangestuurd konden worden. Via
+een menubalk of via toetsenbordcommando's. Hierdoor werdt het al snel duidelijk
+dat deze commando's op een centraal punt gebracht moesten worden voor de verder
+aansturing van de applicatie.
+
+\subsection{Observer}
+De GUI weet eigenlijk niks van de werking van het programma. De GUI is eigenlijk
+ook alleen maar geinteresseerd in weten wat er weergegeven moet worden. Zodra
+een presentatie van slide wisselt dan geeft deze aan dat er iets is gewijzigt in
+de weergave. De GUI gaat dan kijken wat deze wijziging is.
+
+\subsection{Factories}
+Er is gekozen voor een strakke scheiding tussen creatie en gebruik van objecten.
+
+\subsection{Strategy}
+
+
 
 
 \section{Sourcecode}
@@ -241,5 +284,12 @@ Vooral verwerking van weergave scheiden.
 \todo{Proces van refactoring beschrijven}
 \\
 \todo{Proberen waar we tegen aan liepen beschrijven}
+Koppeling GUI en Presentatie gescheiden houden. Zorgen dat Presentatie niet te
+veel van grafische dingen afweet.
+
+Het aanmaken van een nieuwe presentatie binnen het gekozen ontwerp houden.
+Dit hebben we opgelost door een EmptyFileParser aan te maken.
+
+
 
 \end{document}
