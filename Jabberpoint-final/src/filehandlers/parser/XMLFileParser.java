@@ -19,9 +19,16 @@ import filehandlers.format.XMLFormat;
 
 /**
  * Created by ggo01
+ * XML File Parses makes use of DocumentBuilderFactory to parse the loaded file.
+ * Files are assumed to have a fixed structure of presentation -> slide -> item.
  */
 public class XMLFileParser extends FileParser {
 
+    /**
+     * load an individual slide and return it to add to the presentation
+     * @param xmlSlide Current slide item that needs to be created.
+     * @return A slide complete with associated slide items
+     */
     private Slide loadSlide(Element xmlSlide) {
         Slide slide = slideFactory.createSlide();
         SlideItem titleItem = slideItemFactory.createSlideItem(0, SlideItem.TEXT);
@@ -43,12 +50,17 @@ public class XMLFileParser extends FileParser {
         return slide;
     }
 
+    /**
+     * Primary file parsing command. Opens de file and reads all the nodes spawning the required slides and items.
+     * @param filename full file address to open
+     * @return Presentation object completely loaded with all the data.
+     */
     @Override
     public Presentation parseFile(String filename) {
         Presentation presentation = presentationFactory.createPresentation();
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = builder.parse(new File(filename)); // maak een JDOM document
+            Document document = builder.parse(new File(filename));
             Element doc = document.getDocumentElement();
 
             presentation.setTitle(this.getTitle(doc, XMLFormat.SHOWTITLE));
@@ -70,6 +82,11 @@ public class XMLFileParser extends FileParser {
         return presentation;
     }
 
+    /**
+     * Create a slide item to add to a slide.
+     * @param item node of the item to process.
+     * @return A SlideItem.
+     */
     private SlideItem loadSlideItem(Element item) {
         int level = 1; // default
         NamedNodeMap attributes = item.getAttributes();
@@ -89,6 +106,12 @@ public class XMLFileParser extends FileParser {
         return slideItem;
     }
 
+    /**
+     * Helper method to obtain the title of a slide.
+     * @param element element to get the title from
+     * @param tagName Tagname to read out.
+     * @return String of the slide title.
+     */
     private String getTitle(Element element, String tagName) {
         NodeList titles = element.getElementsByTagName(tagName);
         return titles.item(0).getTextContent();

@@ -71,7 +71,7 @@ public class MenuController extends MenuBar {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				try {
-					jabberPointFacade.savePresentation("dump.xml", "xml");
+					jabberPointFacade.savePresentation("dump", "xml");
 					JOptionPane.showMessageDialog(parent, "Save has been made!",
 							"Saved", JOptionPane.INFORMATION_MESSAGE);
 				} catch (IOException e) {

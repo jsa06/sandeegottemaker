@@ -6,6 +6,7 @@ import model.item.SlideItem;
 
 /**
  * Created by ggo01
+ * Demo Slideshow baked into the program when loaded without any arguments.
  */
 public class DemoFileParser extends FileParser {
 

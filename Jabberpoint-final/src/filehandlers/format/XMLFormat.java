@@ -2,6 +2,7 @@ package filehandlers.format;
 
 /**
  * created by jsa06
+ * Make sure there are consistent XML format usages for loading and saving.
  */
 public final class XMLFormat {
     private XMLFormat(){}

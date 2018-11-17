@@ -24,10 +24,20 @@ import java.io.IOException;
 
 /**
  *  created by: jsa06
+ *  XML File Encoder uses DocumentBuilder to generate the proper object and save it to a file.
+ *  Filename is assumed to be without file extension.
  */
 public class XMLFileEncoder extends FileEncoder {
     private Document dom;
 
+    /**
+     * Create an XML node that represents a slideitem. Since slides can have children these are looped through recursively.
+     * However they are all added to the slide without any nesting in the XML files.
+     * @param xmlslide xml slide
+     * @param item item to process
+     * @param level level of the item
+     * @return Element node that represents the parent slide of the item.
+     */
     private Element addSlideItem(Element xmlslide, SlideItem item, int level) {
         Element xmlitem = dom.createElement(XMLFormat.ITEM);
         if(item instanceof ImageItem) {
@@ -38,7 +48,7 @@ public class XMLFileEncoder extends FileEncoder {
         xmlitem.setAttribute(XMLFormat.LEVEL, String.valueOf(level));
         xmlitem.appendChild(dom.createTextNode(item.getContent()));
         xmlslide.appendChild(xmlitem);
-        if(item.getChildren().isEmpty() == false) {
+        if(!item.getChildren().isEmpty()) {
             for (SlideItem child : item.getChildren()) {
                 xmlslide = addSlideItem(xmlslide, child, level + 1);
             }
@@ -46,11 +56,16 @@ public class XMLFileEncoder extends FileEncoder {
         return xmlslide;
     }
 
+    /**
+     * Create an XML node that represents a slide with all items in it.
+     * @param slide slide element to add.
+     * @return Element nod that represents a slide.
+     */
     private Element addSlide(Slide slide) {
         Element xmlslide = dom.createElement(XMLFormat.SLIDE);
         xmlslide.setAttribute(XMLFormat.SLIDETITLE, slide.getTitle());
 
-        if(slide.getSlideItems().isEmpty() == false) {
+        if(!slide.getSlideItems().isEmpty()) {
             for (SlideItem item : slide.getSlideItems()) {
                 xmlslide = addSlideItem(xmlslide, item, 1);
             }
@@ -58,6 +73,11 @@ public class XMLFileEncoder extends FileEncoder {
         return xmlslide;
     }
 
+    /**
+     * Write the file to a *.xml file.
+     * @param filename filename without extension
+     * @return True if successful, False is saving fails.
+     */
     private Boolean writeFile(String filename) {
         try {
             Transformer tr = TransformerFactory.newInstance().newTransformer();
@@ -68,7 +88,7 @@ public class XMLFileEncoder extends FileEncoder {
             tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
             tr.transform(new DOMSource(dom),
-                    new StreamResult(new FileOutputStream(filename)));
+                    new StreamResult(new FileOutputStream(filename + ".xml")));
             return true;
         } catch (TransformerException te) {
             System.out.println(te.getMessage());
@@ -79,6 +99,12 @@ public class XMLFileEncoder extends FileEncoder {
         }
     }
 
+    /**
+     * Primary save function. Creates a DocumentBuilder and sets the Root presentation element.
+     * @param presentation Presentation to save.
+     * @param filename filename without extension
+     * @return True if successful, false if saving fails.
+     */
     public Boolean saveFile(Presentation presentation, String filename) {
         Boolean success = true;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -87,7 +113,7 @@ public class XMLFileEncoder extends FileEncoder {
             dom = db.newDocument();
             Element presentationRoot = dom.createElement(XMLFormat.PRESENTATION);
 
-            if (presentation.getSlides().isEmpty() == false) {
+            if (!presentation.getSlides().isEmpty()) {
                 for (Slide slide : presentation.getSlides()) {
                     presentationRoot.appendChild(addSlide(slide));
                 }
