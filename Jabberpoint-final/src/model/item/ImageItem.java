@@ -1,7 +1,8 @@
 package model.item;
 
+import view.strategies.DrawStrategy;
+
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,13 +30,7 @@ public class ImageItem extends SlideItem {
     }
 
     @Override
-    protected int drawContent(Graphics g, Rectangle area) {
-        float scale = getScale(area);
-        int width = area.x + (int) (this.itemStyle.getIndentation() * scale);
-        int height = area.y + (int) (this.itemStyle.getLeading() * scale);
-        g.drawImage(bufferedImage, width, height,(int) (bufferedImage.getWidth(null) * scale),
-                (int) (bufferedImage.getHeight(null) * scale), null);
-
-        return (int) (this.itemStyle.getLeading() * scale) + (int) (bufferedImage.getHeight(null) * scale);
+    protected void drawContent(DrawStrategy strategy) {
+        strategy.draw(this.itemStyle, bufferedImage);
     }
 }

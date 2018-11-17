@@ -2,6 +2,7 @@ package model;
 
 import model.item.SlideItem;
 import view.JabberDrawable;
+import view.strategies.DrawStrategy;
 
 import java.awt.*;
 import java.util.Vector;
@@ -88,10 +89,10 @@ public class Slide implements JabberDrawable {
     }
 
     @Override
-    public void draw(Graphics g, Rectangle area) {
-        this.title.draw(g, area);
+    public void draw(DrawStrategy strategy) {
+        this.title.draw(strategy);
         for (int i = 0; i < this.currentlyVisibleIndex; i++) {
-            this.slideItems.get(i).draw(g, area);
+            this.slideItems.get(i).draw(strategy);
         }
     }
 }

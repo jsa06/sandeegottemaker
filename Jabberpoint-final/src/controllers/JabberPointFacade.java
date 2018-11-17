@@ -1,6 +1,7 @@
 package controllers;
 
 import filehandlers.FileHandler;
+import view.strategies.DrawStrategy;
 
 import java.awt.*;
 import java.io.IOException;
@@ -91,8 +92,8 @@ public class JabberPointFacade {
     }
 
 
-    public void redrawUI(Graphics g, Rectangle area) {
-                this.presentationController.drawUI(g, area);
+    public void redrawUI(DrawStrategy strategy) {
+                this.presentationController.drawUI(strategy);
     }
 
     public String getTitle() {

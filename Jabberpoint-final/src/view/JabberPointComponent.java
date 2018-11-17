@@ -3,6 +3,7 @@ package view;
 import controllers.JabberObservable;
 import controllers.JabberObserver;
 import controllers.JabberPointFacade;
+import factories.DrawStrategyFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +15,9 @@ public class JabberPointComponent extends JComponent implements JabberObserver {
 
     private final JabberPointFrame frame;
     private JabberPointFacade jabberPointFacade;
-    private JabberObservable observable;
     private Font font;
+
+    private DrawStrategyFactory drawStrategyFactory;
 
     private static final Color BGCOLOR = Color.white;
     private static final Color COLOR = Color.black;
@@ -29,10 +31,12 @@ public class JabberPointComponent extends JComponent implements JabberObserver {
         setBackground(BGCOLOR);
         this.frame = frame;
         this.font = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
+
+        this.drawStrategyFactory = DrawStrategyFactory.getInstance();
+
         this.jabberPointFacade = JabberPointFacade.getInstance();
         this.jabberPointFacade.addObserverToPresentationController(this);
-
-            }
+    }
 
     @Override
     public Dimension getPreferredSize() {
@@ -55,12 +59,12 @@ public class JabberPointComponent extends JComponent implements JabberObserver {
         g.drawString("Slide " + (1 + jabberPointFacade.getCurrentSlideNumber()) + " of " +
                 jabberPointFacade.getNumberOfSlides(), XPOS, YPOS);
         Rectangle area = new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
-        jabberPointFacade.redrawUI(g, area);
+
+        jabberPointFacade.redrawUI(drawStrategyFactory.createStrategy(g, area));
     }
 
     @Override
     public void jabberUpdate(JabberObservable observable) {
-                this.observable = observable;
         repaint();
     }
 }

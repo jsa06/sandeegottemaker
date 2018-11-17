@@ -1,6 +1,7 @@
 package model;
 
 import view.JabberDrawable;
+import view.strategies.DrawStrategy;
 
 import java.awt.*;
 import java.util.Vector;
@@ -73,8 +74,8 @@ public class Presentation implements JabberDrawable {
     }
 
     @Override
-    public void draw(Graphics g, Rectangle area) {
-        this.getCurrentSlide().draw(g, area);
+    public void draw(DrawStrategy strategy) {
+        this.getCurrentSlide().draw(strategy);
     }
 
     public boolean navigateToSlide(int slideNumber) {

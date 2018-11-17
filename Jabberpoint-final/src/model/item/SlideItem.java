@@ -3,6 +3,7 @@ package model.item;
 import model.ItemStyle;
 import view.JabberDrawable;
 import view.JabberPointFrame;
+import view.strategies.DrawStrategy;
 
 import java.awt.*;
 import java.util.Vector;
@@ -18,7 +19,7 @@ public abstract class SlideItem implements JabberDrawable {
     private Vector<SlideItem> children;
     protected ItemStyle itemStyle;
     private int level;
-    private int height;
+    protected int height;
 
     public SlideItem() {
         this.children = new Vector<>();
@@ -59,26 +60,12 @@ public abstract class SlideItem implements JabberDrawable {
     }
 
     @Override
-    public void draw(Graphics g, Rectangle area) {
-        this.height = this.drawContent(g, area);
-        area.y += this.getHeight();
+    public void draw(DrawStrategy strategy) {
+        this.drawContent(strategy);
         for (SlideItem item : this.children) {
-            item.draw(g, area);
+            item.draw(strategy);
         }
     }
 
-    protected int getHeight() {
-        return height;
-    }
-
-    /**
-     * Helper method to calculate the scale of the item to fit within the area.
-     * @param area
-     * @return
-     */
-    protected float getScale(Rectangle area) {
-        return Math.min(((float)area.width) / ((float) JabberPointFrame.WIDTH), ((float)area.height) / ((float) JabberPointFrame.HEIGHT));
-    }
-
-    abstract int drawContent(Graphics g, Rectangle area);
+    abstract void drawContent(DrawStrategy strategy);
 }

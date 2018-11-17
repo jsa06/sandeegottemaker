@@ -1,6 +1,7 @@
 package controllers;
 
 import model.Presentation;
+import view.strategies.DrawStrategy;
 
 import java.awt.*;
 
@@ -66,9 +67,9 @@ public class PresentationController extends JabberObservable {
         return -1;
     }
 
-    public void drawUI(Graphics g, Rectangle area) {
+    public void drawUI(DrawStrategy strategy) {
         if (this.presentation != null) {
-            this.presentation.draw(g, area);
+            this.presentation.draw(strategy);
         }
     }
 

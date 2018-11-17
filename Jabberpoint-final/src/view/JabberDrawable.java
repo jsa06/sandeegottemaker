@@ -1,11 +1,11 @@
 package view;
 
-import java.awt.*;
+import view.strategies.DrawStrategy;
 
 /**
  * Created by ggo01
  */
 public interface JabberDrawable {
 
-    void draw(Graphics g, Rectangle area);
+    void draw(DrawStrategy strategy);
 }
