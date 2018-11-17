@@ -58,6 +58,27 @@ public class XMLFileEncoder extends FileEncoder {
         return xmlslide;
     }
 
+    private Boolean writeFile(String filename) {
+        try {
+            Transformer tr = TransformerFactory.newInstance().newTransformer();
+            tr.setOutputProperty(OutputKeys.INDENT, "yes");
+            tr.setOutputProperty(OutputKeys.METHOD, "xml");
+            tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "jabberpoint.dtd");
+            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+            tr.transform(new DOMSource(dom),
+                    new StreamResult(new FileOutputStream(filename)));
+            return true;
+        } catch (TransformerException te) {
+            System.out.println(te.getMessage());
+            return false;
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+            return false;
+        }
+    }
+
     public Boolean saveFile(Presentation presentation, String filename) {
         Boolean success = true;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -72,25 +93,8 @@ public class XMLFileEncoder extends FileEncoder {
                 }
             }
             dom.appendChild(presentationRoot);
+            success = writeFile(filename);
 
-            try {
-                Transformer tr = TransformerFactory.newInstance().newTransformer();
-                tr.setOutputProperty(OutputKeys.INDENT, "yes");
-                tr.setOutputProperty(OutputKeys.METHOD, "xml");
-                tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "jabberpoint.dtd");
-                tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-
-                tr.transform(new DOMSource(dom),
-                        new StreamResult(new FileOutputStream(filename)));
-
-            } catch (TransformerException te) {
-                System.out.println(te.getMessage());
-                success = false;
-            } catch (IOException ioe) {
-                System.out.println(ioe.getMessage());
-                success = false;
-            }
         } catch (ParserConfigurationException pce) {
             System.out.println("UsersXML: Error trying to instantiate DocumentBuilder " + pce);
             success = false;
