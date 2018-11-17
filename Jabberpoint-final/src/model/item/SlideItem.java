@@ -71,6 +71,10 @@ public abstract class SlideItem implements JabberDrawable {
         return height;
     }
 
+    public Vector<SlideItem> getChildren() {
+        return children;
+    }
+
     /**
      * Helper method to calculate the scale of the item to fit within the area.
      * @param area

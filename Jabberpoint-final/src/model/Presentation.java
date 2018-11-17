@@ -72,6 +72,10 @@ public class Presentation implements JabberDrawable {
         return this.slides.elementAt(this.currentSlideNumber);
     }
 
+    public Vector<Slide> getSlides() {
+        return slides;
+    }
+
     @Override
     public void draw(Graphics g, Rectangle area) {
         this.getCurrentSlide().draw(g, area);

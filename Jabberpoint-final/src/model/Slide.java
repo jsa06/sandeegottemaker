@@ -87,6 +87,10 @@ public class Slide implements JabberDrawable {
         resetSlide();
     }
 
+    public Vector<SlideItem> getSlideItems() {
+        return slideItems;
+    }
+
     @Override
     public void draw(Graphics g, Rectangle area) {
         this.title.draw(g, area);
