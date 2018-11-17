@@ -22,6 +22,27 @@ import filehandlers.format.XMLFormat;
  */
 public class XMLFileParser extends FileParser {
 
+    private Slide loadSlide(Element xmlSlide) {
+        Slide slide = slideFactory.createSlide();
+        SlideItem titleItem = slideItemFactory.createSlideItem(0, SlideItem.TEXT);
+        titleItem.setContent(getTitle(xmlSlide, XMLFormat.SLIDETITLE));
+        slide.setTitle(titleItem);
+
+        String transitionString = xmlSlide.getAttribute(XMLFormat.TRANSITION);
+        boolean transition = Boolean.parseBoolean(transitionString);
+        slide.setTransitionEnabled(transition);
+
+        if(xmlSlide.getElementsByTagName(XMLFormat.ITEM).getLength()>0) {
+            NodeList slideItems = xmlSlide.getElementsByTagName(XMLFormat.ITEM);
+
+            for (int itemNumber = 0; itemNumber < slideItems.getLength(); itemNumber++) {
+                Element item = (Element) slideItems.item(itemNumber);
+                slide.addItem(loadSlideItem(item));
+            }
+        }
+        return slide;
+    }
+
     @Override
     public Presentation parseFile(String filename) {
         Presentation presentation = presentationFactory.createPresentation();
@@ -32,28 +53,12 @@ public class XMLFileParser extends FileParser {
 
             presentation.setTitle(this.getTitle(doc, XMLFormat.SHOWTITLE));
 
-            NodeList slides = doc.getElementsByTagName(XMLFormat.SLIDE);
-            for (int slideNumber = 0; slideNumber < slides.getLength(); slideNumber++) {
-                Element xmlSlide = (Element) slides.item(slideNumber);
-                Slide slide = slideFactory.createSlide();
-                SlideItem titleItem = slideItemFactory.createSlideItem(0, SlideItem.TEXT);
-                titleItem.setContent(getTitle(xmlSlide, XMLFormat.SLIDETITLE));
-                slide.setTitle(titleItem);
-
-                String transitionString = xmlSlide.getAttribute(XMLFormat.TRANSITION);
-                boolean transition = Boolean.parseBoolean(transitionString);
-                slide.setTransitionEnabled(transition);
-
-                presentation.addSlide(slide);
-
-                NodeList slideItems = xmlSlide.getElementsByTagName(XMLFormat.ITEM);
-
-                for (int itemNumber = 0; itemNumber < slideItems.getLength(); itemNumber++) {
-                    Element item = (Element) slideItems.item(itemNumber);
-                    slide.addItem(loadSlideItem(item));
+            if(doc.getElementsByTagName(XMLFormat.SLIDE).getLength() > 0) {
+                NodeList slides = doc.getElementsByTagName(XMLFormat.SLIDE);
+                for (int slideNumber = 0; slideNumber < slides.getLength(); slideNumber++) {
+                    presentation.addSlide(loadSlide((Element) slides.item(slideNumber)));
                 }
             }
-
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
         } catch (SAXException saxe) {

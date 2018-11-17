@@ -47,9 +47,9 @@ public class JabberPointFacade {
         this.presentationController.setPresentation(this.fileHandler.readFile(null));
     }
 
-    public void savePresentation() throws IOException {
+    public void savePresentation(String filename, String filetype) throws IOException {
         // NOTE: Currently the program only saves to dump.xml.
-        fileHandler.saveFile(presentationController.getPresentation(), "xml", "dump.xml");
+        fileHandler.saveFile(presentationController.getPresentation(), filetype, filename);
     }
 
     public void nextSlideItem() {
