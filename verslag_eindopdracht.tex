@@ -7,6 +7,7 @@
 
 \newcommand{\todo}[1]{\textcolor{red}{[#1]}}
 \newcommand{\1}[0]{\'{e}\'{e}n}
+\newcommand{\code}[1]{\texttt{#1}}
 
 \renewcommand\labelitemi{-}
 \renewcommand{\figurename}{Figuur}
@@ -26,7 +27,6 @@
     \item Jan Jaap Sandee --- 852025385
 	\item Gerralt Gottemaker --- 852083852
 \end{description}
-\todo{Verslag op taal- en spellingsfouten controleren}
 
 \section*{Aanpak}
 Om de opdracht succesvol af te ronden, is het zaak om goed samen te werken. We hebben het geluk collega's te zijn, wat het communiceren een aanzienlijk stuk gemakkelijker maakt. In dit hoofdstuk staat de aanpak beschreven die we gekozen hebben. De volgorde waarin het opgeschreven is, is ook de volgorde waarin we gewerkt hebben. Verder staat per item beschreven wie hieraan gewerkt heeft. Als niet vermeld wordt wie eraan gewerkt heeft, hebben beide teamgenoten eraan gewerkt.
@@ -35,33 +35,15 @@ Er is begonnen met het opzetten van een Git repository waarin Jan Jaap Gerralt e
 
 Hierna heeft Jan Jaap een eenvoudig diagram gemaakt van de huidige situatie van JabberPoint. Dit geeft een duidelijker beeld van de pijnpunten en maakt de geplande refactoring overzichtelijker.
 
-Vervolgens is er een Probleem Analyse gemaakt waarbij alleen is gekeken naar de
-functionaliteit van het systeem. De zogenaamde Mankala aanpak staat hierbij
-centraal. Gedurende het maken van de analyse is nog niet gekeken naar bestaande
-code van JabberPoint, om zo vooroordelen uit te sluiten. Hier is bewust voor
-gekozen omdat we het idee hebben dat het zo gemakkelijker is om te denken in
-termen van het domein en niet direct te denken in klassenamen. Jan Jaap heeft
-hiervan het opzetje gemaakt, welke vervolgens uitgebreid is door Gerralt. Hierna
-is samen gewerkt aan de uiteindelijke versie van de probleemanalyse. Beiden
-kwamen tot vergelijkbare conclusies wat betreft de Probleem Analyse.
+Vervolgens is er een Probleem Analyse gemaakt waarbij alleen is gekeken naar de functionaliteit van het systeem. De zogenaamde Mankala aanpak staat hierbij centraal. Gedurende het maken van de analyse is nog niet gekeken naar bestaande code van JabberPoint, om zo vooroordelen uit te sluiten. Hier is bewust voor gekozen omdat we het idee hebben dat het zo gemakkelijker is om te denken in termen van het domein en niet direct te denken in klassenamen. Jan Jaap heeft hiervan het opzetje gemaakt, welke vervolgens uitgebreid is door Gerralt. Hierna is samen gewerkt aan de uiteindelijke versie van de probleemanalyse. Beiden kwamen tot vergelijkbare conclusies wat betreft de Probleem Analyse.
 
-Aan de hand van de probleemanalyse is een klassendiagram opgebouwd. Hierbij zijn
-de principes die genoemd worden in het tekstboek gevolgd, waarbij erg gelet is
-op het principe dat patterns de context creëren van onderliggende patterns. De
-design principes zoals high cohesion en low coupling staan hierbij natuurlijk
-ook centraal. In het verslag zijn vervolgens de verschillende (belangrijke)
-classes en structuren toegelicht.
+Aan de hand van de probleemanalyse is een klassendiagram opgebouwd. Hierbij zijn de principes die genoemd worden in het tekstboek gevolgd, waarbij erg gelet is op het principe dat patterns de context creëren van onderliggende patterns. De design principes zoals high cohesion en low coupling staan hierbij natuurlijk ook centraal. In het verslag zijn vervolgens de verschillende (belangrijke) classes en structuren toegelicht.
 
-Het maken van de klassendiagram is gedaan in persoon met een diagram op een
-grootscherm en veel overleg over het ontwerp. hierin is in fasen gewerkt om tot
-een ontwerp te komen. Beginnend bij de Gui en de Facade, hier kwam vervolgens de
-persentatie zelf bij. Als laatste hebben we gekeken naar het afhandelen van
-bestanden.
-\\\\
-\todo{Aanpak keuzen verantwoorden}
-\\
-\todo{Aanpak implementatie verantwoorden}
+Het klassendiagram is samen gemaakt, in persoon. Er was een whiteboard en een (gedeeld) beeldscherm beschikbaar, waar we onze idee\"{e}n op kwijt konden. Het ontwerp kreeg steeds meer vorm door een top-down aanpak, waarbij we steeds de context cre\"{e}erden voor het volgende pattern. De scheiding GUI / functionaliteit was het eerst aan de beurt, om vervolgens tot een steeds gedetailleerder ontwerp te komen
 
+Nadat het ontwerp afgerond was, is een nieuw project gemaakt. Gerralt heeft de boilerplate code gemaakt en heeft de eerste functionaliteit gebouwd. Vervolgens is voor wat nog open stond issues gemaakt op het Project Board op Github. Dit is vervolgens door zowel Gerralt als Jan Jaap opgepakt.
+
+Als laatst is de documentatie geschreven door beide teamleden. Jan Jaap heeft hier een eerste versie voor gemaakt, die uitgebreid is door Gerralt. Vervolgens hebben beide teamleden de documentatie geschreven. Dit alles is op het laatst gecontroleerd op taal- en spelling.
 
 \section{Probleemanalyse}
 Om JabberPoint goed te kunnen refactoren, is een probleemanalyse van de casus gemaakt. Deze probleemanalyse is op basis van de Mankala aanpak gedaan. Deze aanpak bestaat uit een aantal stappen, welke een steeds duidelijker beeld van het domein moeten opleveren. In de volgende koppen staan deze stappen uitgewerkt.
@@ -240,7 +222,7 @@ Zoals hierboven beschreven, is de GUI gescheiden van de functionaliteit. Dit zor
 \subsection{Factories}
 Er is gekozen voor een strakke scheiding tussen creatie en gebruik van objecten. Om dit te verwezenlijken, zijn er meerdere Factories gemaakt. Deze Factories zijn allemaal terug te vinden in het bijgeleverde diagram.
 \\\\
-Een van de Factories vergt wat uitleg. De ItemStylePool is een speciale soort Factory die slechts een paar instanties van het object ItemStyle maakt. In JabberPoint (uitgangspunt en uiteindelijke versie) staan de stijlen van de verschillende levels namelijk vast. Dit betekent dat er slechts vijf instanties van de class ItemStyle nodig zijn. Om te zorgen dat er geen nodeloze kopie\"{e}n van hetzelfde object zijn, is deze ItemStylePool ontworpen. De ItemStylePool heeft vijf instanties van ItemStyle en geeft een referentie naar \1 van deze vijf objecten wanneer daar om gevraagd wordt.
+E\'{e}n van de Factories vergt wat uitleg. De ItemStylePool is een speciale soort Factory die slechts een paar instanties van het object ItemStyle maakt. In JabberPoint (uitgangspunt en uiteindelijke versie) staan de stijlen van de verschillende levels namelijk vast. Dit betekent dat er slechts vijf instanties van de class ItemStyle nodig zijn. Om te zorgen dat er geen nodeloze kopie\"{e}n van hetzelfde object zijn, is deze ItemStylePool ontworpen. De ItemStylePool heeft vijf instanties van ItemStyle en geeft een referentie naar \1 van deze vijf objecten wanneer daar om gevraagd wordt.
 
 \subsection{Strategies}
 \subsubsection{ItemParser}
@@ -255,17 +237,18 @@ In een eerdere iteratie van het ontwerp was gekozen om de abstracte class Observ
 
 \section{Sourcecode}
 \label{sec:source}
-\todo{Sourcecode nader beschrijven}
-\\
-\todo{Proces van refactoring beschrijven}
-\\
-\todo{Proberen waar we tegen aan liepen beschrijven}
-Koppeling GUI en Presentatie gescheiden houden. Zorgen dat Presentatie niet te
-veel van grafische dingen afweet.
+In deze sectie wordt de sourcecode beschreven. Allereerst zal er wat verteld worden over het refactorproces en wat pijnpuntjes waar we tegenaan liepen, waarna de applicatie zelf beschreven wordt.
+\\\\
+We zijn begonnen met een leeg project. Hier hebben we alle classes toegevoegd die de structuur van het ontwerp volgen. Connecties zijn tussen de classes gelegd en de Factories direct gemaakt. De code van de Factories is namelijk vrij triviaal. Verder is de GUI uit het vorige project genomen en gerefactored om in de nieuwe structuur te passen. De Facade is gemaakt met stubs (printjes om de werking te testen) en vervolgens de structuur van het Model. Daarna is het afhandelen van de bestanden gebouwd en het programma getest. Er werd op dat moment nog niets getekend op het scherm, maar de structuur werd perfect ingelezen.
 
-Het aanmaken van een nieuwe presentatie binnen het gekozen ontwerp houden.
-Dit hebben we opgelost door een EmptyFileParser aan te maken.
+Bij het bouwen van het draw mechanisme bleek al gauw dat we daar nog niet goed genoeg over nagedacht hadden. Het uitgangspunt was om View en Model te scheiden, maar om te tekenen bleek het Model de View nodig te zijn. Dit resulteerde in code die bijna net zo rommelig was als de oude code. Na overleg tussen Gerralt en Jan Jaap, is gekozen voor een soort Strategy structuur die meegegeven wordt in de parameters van de draw methode. Deze Strategy wordt gebruikt om het tekenen te abstraheren en nu is View en Model keurig losgekoppeld.
+\\\\
+Het opstarten van het programma gebeurt door het aanroepen van de main methode in JabberPoint. De class JabberPoint doet niets anders dan een Swing JFrame (JabberPointFrame) aanmaken, welke zichzelf verder opbouwt. Verder kijkt JabberPoint of er argumenten zijn meegegeven tijdens het opstarten. Wanneer er argumenten zijn meegegeven, zal JabberPoint de Facade zeggen om de presentatie te openen met als input het argument. Als er geen argumenten zijn, zal JabberPoint de standaard (demo) presentatie tonen. 
 
+Tijdens het opstarten wordt ook de connectie tussen de GUI en het functionele deel opgezet aan de hand van het beschreven Observer / Observable pattern. Omdat er geen meerdere instanties zijn van de Observer en Observable, worden seintjes altijd maar keurig \1 keer verstuurd.
+\\\\
+De sourcecode is verder compleet van JavaDoc voorzien. De uitleg van specifieke items laten we dus graag aan deze JavaDoc over om te voorkomen dat we dingen dubbel beschrijven. Er is echter \1 constructie die nadere uitleg vergt en dat is de recursieve structuur van SlideItems. De oude structuur maakte het lastiger om de functionaliteit te introduceren zoals beschreven in de Feature request. Daar moet namelijk onderscheid zijn in level 1 items en onderliggende items, aangezien er door level 1 items (en de kinderen van dat level 1 item) gebladerd moet kunnen worden. Om het ontwerp flexibel te maken, is gekozen om de hele structuur op te bouwen door ook de level 2 items zijn "kinderen" te geven en niet alles onder level 1 items te hangen. Dit zorgt voor een recursieve opbouw, welke erg overeenkomt met hoe XML en JSON normaal gesproken opgebouwd is. Dit zorgt ervoor dat de code flexibeler is wanneer er meerdere bestandsformaten ondersteund moeten worden en wanneer er misschien later ook nog door level 2 items gebladerd moet kunnen worden bijvoorbeeld.
 
+Maar, hoe werkt de structuur? Het opbouwen gebeurt in twee fasen, welke hier worden beschreven. De eerste fase is een SlideItem toevoegen aan de Slide. Als de Slide nog leeg is of als het een level 1 SlideItem betreft, wordt deze aan de Slide toegevoegd. Mocht dit niet gebeuren, komt de betreffende SlideItem in fase 2. In fase 2 zal de Slide zijn laatst toegevoegde SlideItem uit de lijst vertellen dat deze het toe te voegen SlideItem moet verwerken als \1 van zijn kinderen. Dit gebeurt met de aanroep \code{lastAdded.addChild(slideItem);}. Wanneer dit gebeurt, zal de \code{lastAdded} SlideItem gaan kijken of de toe te voegen SlideItem een sibling van zijn child (zelfde level als laatst toegevoegde child) of een child (lager level dan laatst toegevoegde child) betreft. Als het een sibling is, voegt de \code{lastAdded} SlideItem de toe te voegen SlideItem toe aan zijn eigen lijst (children). Mocht het een child van een child zijn, zal fase 2 zich herhalen voor het laatst toegevoegde child.
 
 \end{document}
