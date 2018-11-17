@@ -225,10 +225,16 @@ Er is gekozen voor een strakke scheiding tussen creatie en gebruik van objecten.
 E\'{e}n van de Factories vergt wat uitleg. De ItemStylePool is een speciale soort Factory die slechts een paar instanties van het object ItemStyle maakt. In JabberPoint (uitgangspunt en uiteindelijke versie) staan de stijlen van de verschillende levels namelijk vast. Dit betekent dat er slechts vijf instanties van de class ItemStyle nodig zijn. Om te zorgen dat er geen nodeloze kopie\"{e}n van hetzelfde object zijn, is deze ItemStylePool ontworpen. De ItemStylePool heeft vijf instanties van ItemStyle en geeft een referentie naar \1 van deze vijf objecten wanneer daar om gevraagd wordt.
 
 \subsection{Strategies}
-\subsubsection{ItemParser}
-\subsubsection{ItemEncoder}
+Het Strategy pattern is twee keer toegepast in het ontwerp. Daar is later een speciale soort Strategy aan toegevoegd, in de vorm van de draw functionaliteit. De eerste twee worden in dit kopje beschreven. Hoe de draw functionaliteit werkt, is te lezen in kopje \ref{sub:drawFunc}.
+
+\subsubsection{FileParser}
+Om het uitlezen op een uniforme manier te laten gebeuren, maakt de class FileReader gebruik van het Strategy pattern. De FileReader weet niet welke concrete implementatie gebruikt wordt, omdat de FileReader de Strategy krijgt via een Factory. De juiste Strategy wordt bepaald aan de hand van input. Zodra bekend is welke FileParser gebruikt moet worden, zal de FileReader de strategy methode aanroepen om het uitlezen te verwezenlijken.
+
+\subsubsection{FileEncoder}
+De structuur is voor de FileEncoder is nagenoeg hetzelfde als voor de FileParser. Uiteraard is de "richting" precies andersom. Waar de FileParser een bestand uitleest tot een Presentation, zal de FileEncoder de Strategy zijn om een Presentation om te zetten naar een bestand. Er is gekozen voor een Strategy om te zorgen dat meerdere bestandsformaten makkelijk ondersteund kunnen worden in de toekomst.
 
 \subsection{Draw functionaliteit}
+\label{sub:drawFunc}
 In een eerdere iteratie van het ontwerp hebben we geprobeerd de GUI en de functionaliteit zo goed mogelijk te scheiden. Dat is aardig gelukt, op \1 vlak na: het tekenen van de items op het scherm. In een nieuwe iteratie van het ontwerp hebben we dit zo goed mogelijk proberen op te lossen. We hebben hier een soort Strategy pattern van proberen te maken, welke dynamisch bij elke aanroep van draw meegegeven wordt. De Model objecten zijn dus niet rechtstreeks afhankelijk van de juiste Strategy, maar deze wordt meegegeven bij de aanroep van drawUI. Op deze manier kan het Model de draw functie van de Strategy aanroepen. Op dit moment is de applicatie volledig gebouwd op Java Swing, maar dankzij deze speciale Strategy is het absoluut niet ondenkbaar dat de applicatie op ten duur ook bijvoorbeeld een GUI gebouwd op HTML kan ondersteunen, zonder daarvoor ontzettend veel aanpassingen voor te hoeven doen. Een nieuwe concrete implementatie van de DrawStrategy is dan namelijk voldoende.
 
 \subsection{PresentationController}
