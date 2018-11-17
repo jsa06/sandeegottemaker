@@ -67,5 +67,9 @@ public abstract class SlideItem implements JabberDrawable {
         }
     }
 
+    public Vector<SlideItem> getChildren() {
+        return children;
+    }
+
     abstract void drawContent(DrawStrategy strategy);
 }

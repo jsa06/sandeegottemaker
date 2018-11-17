@@ -69,8 +69,13 @@ public class MenuController extends MenuBar {
 		});
 		fileMenu.add(menuItem = mkMenuItem(SAVE));
 		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO
+			public void actionPerformed(ActionEvent actionEvent) {
+				try {
+					jabberPointFacade.savePresentation();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(parent, e.getMessage(),
+							LOADERR, JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		fileMenu.addSeparator();

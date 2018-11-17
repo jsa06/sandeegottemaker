@@ -17,6 +17,10 @@ public class PresentationController extends JabberObservable {
         this.notifyObservers();
     }
 
+    public Presentation getPresentation() {
+        return presentation;
+    }
+
     public void nextItem() {
         if (this.presentation!= null && this.presentation.nextItem()) {
             this.notifyObservers();

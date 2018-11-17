@@ -1,6 +1,8 @@
 package filehandlers;
 
+import factories.FileEncoderFactory;
 import factories.FileParserFactory;
+import filehandlers.encoder.FileEncoder;
 import filehandlers.parser.FileParser;
 import model.Presentation;
 
@@ -15,7 +17,11 @@ public class FileHandler {
 
     private FileReader fileReader;
 
+    private FileSaver fileSaver;
+
     private FileParserFactory fileParserFactory;
+
+    private FileEncoderFactory fileEncoderFactory;
 
     public static FileHandler getInstance() {
         if (instance == null) {
@@ -27,7 +33,9 @@ public class FileHandler {
 
     private FileHandler() {
         this.fileReader = new FileReader();
+        this.fileSaver = new FileSaver();
         this.fileParserFactory = FileParserFactory.getInstance();
+        this.fileEncoderFactory = FileEncoderFactory.getInstance();
     }
 
     public Presentation readFile(String filename) throws IOException {
@@ -35,5 +43,12 @@ public class FileHandler {
         fileReader.setParser(parser);
 
         return fileReader.readFile(filename);
+    }
+
+    public Boolean saveFile(Presentation presentation, String filetype, String filename) throws IOException {
+        FileEncoder encoder = fileEncoderFactory.getFileEncoder(filetype);
+        fileSaver.setEncoder(encoder);
+
+        return fileSaver.saveFile(presentation, filename);
     }
 }

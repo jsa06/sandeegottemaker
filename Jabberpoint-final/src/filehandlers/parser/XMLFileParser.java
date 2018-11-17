@@ -15,19 +15,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
+import filehandlers.format.XMLFormat;
+
 /**
  * Created by ggo01
  */
 public class XMLFileParser extends FileParser {
-
-    /** names of xml tags or attributes */
-    private static final String SHOWTITLE = "showtitle";
-    private static final String SLIDETITLE = "title";
-    private static final String SLIDE = "slide";
-    private static final String ITEM = "item";
-    private static final String LEVEL = "level";
-    private static final String KIND = "kind";
-    private static final String TRANSITION = "transition";
 
     @Override
     public Presentation parseFile(String filename) {
@@ -37,23 +30,23 @@ public class XMLFileParser extends FileParser {
             Document document = builder.parse(new File(filename)); // maak een JDOM document
             Element doc = document.getDocumentElement();
 
-            presentation.setTitle(this.getTitle(doc, SHOWTITLE));
+            presentation.setTitle(this.getTitle(doc, XMLFormat.SHOWTITLE));
 
-            NodeList slides = doc.getElementsByTagName(SLIDE);
+            NodeList slides = doc.getElementsByTagName(XMLFormat.SLIDE);
             for (int slideNumber = 0; slideNumber < slides.getLength(); slideNumber++) {
                 Element xmlSlide = (Element) slides.item(slideNumber);
                 Slide slide = slideFactory.createSlide();
                 SlideItem titleItem = slideItemFactory.createSlideItem(0, SlideItem.TEXT);
-                titleItem.setContent(getTitle(xmlSlide, SLIDETITLE));
+                titleItem.setContent(getTitle(xmlSlide, XMLFormat.SLIDETITLE));
                 slide.setTitle(titleItem);
 
-                String transitionString = xmlSlide.getAttribute(TRANSITION);
+                String transitionString = xmlSlide.getAttribute(XMLFormat.TRANSITION);
                 boolean transition = Boolean.parseBoolean(transitionString);
                 slide.setTransitionEnabled(transition);
 
                 presentation.addSlide(slide);
 
-                NodeList slideItems = xmlSlide.getElementsByTagName(ITEM);
+                NodeList slideItems = xmlSlide.getElementsByTagName(XMLFormat.ITEM);
 
                 for (int itemNumber = 0; itemNumber < slideItems.getLength(); itemNumber++) {
                     Element item = (Element) slideItems.item(itemNumber);
@@ -75,7 +68,7 @@ public class XMLFileParser extends FileParser {
     private SlideItem loadSlideItem(Element item) {
         int level = 1; // default
         NamedNodeMap attributes = item.getAttributes();
-        String levelText = attributes.getNamedItem(LEVEL).getTextContent();
+        String levelText = attributes.getNamedItem(XMLFormat.LEVEL).getTextContent();
         if (levelText != null) {
             try {
                 level = Integer.parseInt(levelText);
@@ -84,7 +77,7 @@ public class XMLFileParser extends FileParser {
                 nfe.printStackTrace();
             }
         }
-        String type = attributes.getNamedItem(KIND).getTextContent();
+        String type = attributes.getNamedItem(XMLFormat.KIND).getTextContent();
         SlideItem slideItem = slideItemFactory.createSlideItem(level, type);
         slideItem.setContent(item.getTextContent());
 

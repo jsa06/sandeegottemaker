@@ -88,6 +88,10 @@ public class Slide implements JabberDrawable {
         resetSlide();
     }
 
+    public Vector<SlideItem> getSlideItems() {
+        return slideItems;
+    }
+
     @Override
     public void draw(DrawStrategy strategy) {
         this.title.draw(strategy);

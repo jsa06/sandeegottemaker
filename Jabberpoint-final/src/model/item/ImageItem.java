@@ -13,14 +13,16 @@ import java.io.IOException;
 public class ImageItem extends SlideItem {
 
     private BufferedImage bufferedImage;
+    private String fileName;
 
     @Override
     public String getContent() {
-        return bufferedImage.toString();
+        return fileName;
     }
 
     @Override
     public void setContent(String content) {
+        fileName = content;
         try {
             bufferedImage = ImageIO.read(new File(content));
         }
