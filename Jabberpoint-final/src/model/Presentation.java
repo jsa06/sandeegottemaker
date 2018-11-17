@@ -1,10 +1,8 @@
 package model;
 
 import view.JabberDrawable;
-import view.JabberPointComponent;
 
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.util.Vector;
 
 /**
@@ -35,17 +33,13 @@ public class Presentation implements JabberDrawable {
     }
 
     public boolean nextItem() {
-        if(!this.getCurrentSlide().nextItem()) {
-            return this.nextSlide();
-        }
-        return true;
+        // Method makes use of boolean order. When first statement returns false, it goes to the next statement
+        return this.getCurrentSlide().nextItem() || this.nextSlide();
     }
 
     public boolean previousItem() {
-        if(!this.getCurrentSlide().previousItem()) {
-            return this.previousSlide();
-        }
-        return true;
+        // Method makes use of boolean order. When first statement returns false, it goes to the next statement
+        return this.getCurrentSlide().previousItem() || this.previousSlide();
     }
 
     public boolean nextSlide() {
@@ -53,6 +47,7 @@ public class Presentation implements JabberDrawable {
             return false; // Do not add, because it is the last slide. Return false
         }
         this.currentSlideNumber++;
+        this.getCurrentSlide().resetSlide();
         return true;
     }
 
@@ -61,6 +56,7 @@ public class Presentation implements JabberDrawable {
             return false; // Do not subtract, because it is the first slide. Return false
         }
         this.currentSlideNumber--;
+        this.getCurrentSlide().resetSlide();
         return true;
     }
 
@@ -79,5 +75,14 @@ public class Presentation implements JabberDrawable {
     @Override
     public void draw(Graphics g, Rectangle area) {
         this.getCurrentSlide().draw(g, area);
+    }
+
+    public boolean navigateToSlide(int slideNumber) {
+        if (slideNumber < 1 || slideNumber > this.getNumberOfSlides()) {
+            return false;
+        }
+
+        this.currentSlideNumber = slideNumber -1;
+        return true;
     }
 }

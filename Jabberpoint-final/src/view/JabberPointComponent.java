@@ -32,8 +32,7 @@ public class JabberPointComponent extends JComponent implements JabberObserver {
         this.jabberPointFacade = JabberPointFacade.getInstance();
         this.jabberPointFacade.addObserverToPresentationController(this);
 
-        System.out.println("created JPComponent");
-    }
+            }
 
     @Override
     public Dimension getPreferredSize() {
@@ -47,6 +46,7 @@ public class JabberPointComponent extends JComponent implements JabberObserver {
 
     @Override
     public void update(Graphics g) {
+        this.frame.setTitle(this.jabberPointFacade.getTitle());
         g.setColor(BGCOLOR);
         g.fillRect(0, 0, getSize().width, getSize().height);
 
@@ -60,8 +60,7 @@ public class JabberPointComponent extends JComponent implements JabberObserver {
 
     @Override
     public void jabberUpdate(JabberObservable observable) {
-        System.out.println("JabberUpdate called!");
-        this.observable = observable;
+                this.observable = observable;
         repaint();
     }
 }

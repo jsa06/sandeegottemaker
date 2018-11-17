@@ -1,7 +1,6 @@
 package factories;
 
 import filehandlers.parser.DemoFileParser;
-import filehandlers.FileReader;
 import filehandlers.parser.EmptyFileParser;
 import filehandlers.parser.FileParser;
 import filehandlers.parser.XMLFileParser;

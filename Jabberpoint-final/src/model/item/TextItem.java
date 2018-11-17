@@ -7,7 +7,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
-import java.awt.image.ImageObserver;
+import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,15 +30,14 @@ public class TextItem extends SlideItem {
     }
 
     @Override
-    protected void drawContent(Graphics g, Rectangle area) {
-        System.out.println("DRAW TEXT: " + text);
-
+    protected int drawContent(Graphics g, Rectangle area) {
+        int height = 0;
         if (text == null || text.length() == 0) {
-            return;
+            return height;
         }
 
         float scale = getScale(area);
-        java.util.List<TextLayout> layouts = getLayouts(g, scale);
+        List<TextLayout> layouts = this.getLayouts(g, scale);
         Point pen = new Point(area.x + (int)(this.itemStyle.getIndentation() * scale),
                 area.y + (int) (this.itemStyle.getLeading() * scale));
         Graphics2D g2d = (Graphics2D)g;
@@ -49,17 +48,27 @@ public class TextItem extends SlideItem {
             pen.y += layout.getAscent();
             layout.draw(g2d, pen.x, pen.y);
             pen.y += layout.getDescent();
+
+            height += calculateHeight(layout);
         }
+
+        return height;
     }
 
-    @Override
-    protected int getHeight(Graphics g, Rectangle area) {
-        return 20; //TODO berekenen
+    private int calculateHeight(TextLayout layout) {
+        int height = (int) layout.getDescent() + this.itemStyle.getLeading();
+
+        Rectangle2D bounds = layout.getBounds();
+        if (bounds.getHeight() > 0) {
+            height += bounds.getHeight();
+        }
+
+        return height;
     }
 
     private List<TextLayout> getLayouts(Graphics g, float scale) {
         List<TextLayout> layouts = new ArrayList<TextLayout>();
-        AttributedString attrStr = getAttributedString(scale);
+        AttributedString attrStr = this.getAttributedString(scale);
         Graphics2D g2d = (Graphics2D) g;
         FontRenderContext frc = g2d.getFontRenderContext();
         LineBreakMeasurer measurer = new LineBreakMeasurer(attrStr.getIterator(), frc);

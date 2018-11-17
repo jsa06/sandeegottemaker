@@ -27,6 +27,7 @@ public class XMLFileParser extends FileParser {
     private static final String ITEM = "item";
     private static final String LEVEL = "level";
     private static final String KIND = "kind";
+    private static final String TRANSITION = "transition";
 
     @Override
     public Presentation parseFile(String filename) {
@@ -42,9 +43,14 @@ public class XMLFileParser extends FileParser {
             for (int slideNumber = 0; slideNumber < slides.getLength(); slideNumber++) {
                 Element xmlSlide = (Element) slides.item(slideNumber);
                 Slide slide = slideFactory.createSlide();
-                SlideItem titleItem = slideItemFactory.createSlideItem(1, SlideItem.TEXT);
+                SlideItem titleItem = slideItemFactory.createSlideItem(0, SlideItem.TEXT);
                 titleItem.setContent(getTitle(xmlSlide, SLIDETITLE));
                 slide.setTitle(titleItem);
+
+                String transitionString = xmlSlide.getAttribute(TRANSITION);
+                boolean transition = Boolean.parseBoolean(transitionString);
+                slide.setTransitionEnabled(transition);
+
                 presentation.addSlide(slide);
 
                 NodeList slideItems = xmlSlide.getElementsByTagName(ITEM);
@@ -81,6 +87,7 @@ public class XMLFileParser extends FileParser {
         String type = attributes.getNamedItem(KIND).getTextContent();
         SlideItem slideItem = slideItemFactory.createSlideItem(level, type);
         slideItem.setContent(item.getTextContent());
+
         return slideItem;
     }
 

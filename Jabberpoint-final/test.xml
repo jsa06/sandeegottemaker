@@ -30,7 +30,7 @@
 		<item kind="text"  level="1"> </item>
 		<item kind="image"  level="2">serclogo_fc.jpg</item>
 	</slide>
-	<slide>
+	<slide transition="false">
 		<title>JabberPoint: Levels en stijlen</title>
 		<item kind="text"  level="1">Level 1</item>
 		<item kind="text"  level="2">Level 2</item>

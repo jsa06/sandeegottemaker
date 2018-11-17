@@ -1,12 +1,8 @@
 package model.item;
 
-import view.JabberPointComponent;
-import view.JabberPointFrame;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,16 +29,13 @@ public class ImageItem extends SlideItem {
     }
 
     @Override
-    protected void drawContent(Graphics g, Rectangle area) {
+    protected int drawContent(Graphics g, Rectangle area) {
         float scale = getScale(area);
         int width = area.x + (int) (this.itemStyle.getIndentation() * scale);
         int height = area.y + (int) (this.itemStyle.getLeading() * scale);
         g.drawImage(bufferedImage, width, height,(int) (bufferedImage.getWidth(null) * scale),
                 (int) (bufferedImage.getHeight(null) * scale), null);
-    }
 
-    @Override
-    protected int getHeight(Graphics g, Rectangle area) {
-        return 20; //TODO berekenen
+        return (int) (this.itemStyle.getLeading() * scale) + (int) (bufferedImage.getHeight(null) * scale);
     }
 }

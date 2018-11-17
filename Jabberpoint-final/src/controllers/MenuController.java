@@ -29,16 +29,14 @@ public class MenuController extends MenuBar {
 	protected static final String HELP = "Help";
 	protected static final String NEW = "New";
 	protected static final String NEXT = "Next";
+	protected static final String NEXT_ITEM = "Next item";
 	protected static final String OPEN = "Open";
 	protected static final String PAGENR = "Page number?";
 	protected static final String PREV = "Prev";
+	protected static final String PREV_ITEM = "Prev item";
 	protected static final String SAVE = "Save";
 	protected static final String VIEW = "View";
-	
-	protected static final String TESTFILE = "test.xml";
-	protected static final String SAVEFILE = "dump.xml";
-	
-	protected static final String IOEX = "IO Exception: ";
+
 	protected static final String LOADERR = "Load Error";
 	protected static final String SAVEERR = "Save Error";
 
@@ -84,24 +82,52 @@ public class MenuController extends MenuBar {
 		});
 		add(fileMenu);
 		Menu viewMenu = new Menu(VIEW);
+
+		viewMenu.add(menuItem = mkMenuItem(NEXT_ITEM));
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				jabberPointFacade.nextSlideItem();
+			}
+		});
+
 		viewMenu.add(menuItem = mkMenuItem(NEXT));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				jabberPointFacade.nextSlide();
 			}
 		});
+
 		viewMenu.add(menuItem = mkMenuItem(PREV));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				jabberPointFacade.previousSlide();
 			}
 		});
+
+		viewMenu.add(menuItem = mkMenuItem(PREV_ITEM));
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				jabberPointFacade.previousSlideItem();
+			}
+		});
+
 		viewMenu.add(menuItem = mkMenuItem(GOTO));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				String pageNumberStr = JOptionPane.showInputDialog(PAGENR);
-				int pageNumber = Integer.parseInt(pageNumberStr);
-				jabberPointFacade.navigateToSlide(pageNumber);
+				try {
+					int pageNumber = Integer.parseInt(pageNumberStr);
+					if (!jabberPointFacade.navigateToSlide(pageNumber)) {
+						JOptionPane.showMessageDialog(parent, "Please enter a number between 1 and " + jabberPointFacade.getNumberOfSlides(),
+								"No correct input", JOptionPane.ERROR_MESSAGE);
+						actionPerformed(actionEvent);
+					}
+				} catch (NumberFormatException nfe) {
+					JOptionPane.showMessageDialog(parent, "Please enter a number!",
+							"No correct input", JOptionPane.ERROR_MESSAGE);
+					actionPerformed(actionEvent);
+				}
+
 			}
 		});
 		add(viewMenu);

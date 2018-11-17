@@ -1,10 +1,8 @@
 package controllers;
 
 import model.Presentation;
-import view.JabberDrawable;
 
 import java.awt.*;
-import java.awt.image.ImageObserver;
 
 /**
  * Created by ggo01
@@ -42,6 +40,18 @@ public class PresentationController extends JabberObservable {
         }
     }
 
+    public boolean navigateToSlide(int slideNumber) {
+        if (this.presentation != null) {
+            if (this.presentation.navigateToSlide(slideNumber)) {
+                this.notifyObservers();
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
     public int getNumberOfSlides() {
         if (this.presentation != null) {
             return this.presentation.getNumberOfSlides();
@@ -60,5 +70,12 @@ public class PresentationController extends JabberObservable {
         if (this.presentation != null) {
             this.presentation.draw(g, area);
         }
+    }
+
+    public String getTitle() {
+        if (this.presentation != null) {
+            return this.presentation.getTitle();
+        }
+        return "No presentation set";
     }
 }

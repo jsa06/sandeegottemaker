@@ -15,7 +15,7 @@ public class DemoFileParser extends FileParser {
         presentation.setTitle("Demo Presentation");
 
         Slide slide = slideFactory.createSlide();
-        slide.setTitle(createSlideItem(1, SlideItem.TEXT,"JabberPoint"));
+        slide.setTitle(createSlideItem(0, SlideItem.TEXT,"JabberPoint"));
         slide.addItem(createSlideItem(1, SlideItem.TEXT, "Het Java Presentatie Tool"));
         slide.addItem(createSlideItem(2, SlideItem.TEXT, "Copyright (c) 1996-2000: Ian Darwin"));
         slide.addItem(createSlideItem(2, SlideItem.TEXT, "Copyright (c) 2000-now:"));
@@ -29,7 +29,7 @@ public class DemoFileParser extends FileParser {
         presentation.addSlide(slide);
 
         slide = slideFactory.createSlide();
-        slide.setTitle(createSlideItem(1, SlideItem.TEXT, "Demonstratie van levels en stijlen"));
+        slide.setTitle(createSlideItem(0, SlideItem.TEXT, "Demonstratie van levels en stijlen"));
         slide.addItem(createSlideItem(1, SlideItem.TEXT, "Level 1"));
         slide.addItem(createSlideItem(2, SlideItem.TEXT, "Level 2"));
         slide.addItem(createSlideItem(1, SlideItem.TEXT, "Nogmaals level 1"));
@@ -40,7 +40,7 @@ public class DemoFileParser extends FileParser {
         presentation.addSlide(slide);
 
         slide = slideFactory.createSlide();
-        slide.setTitle(createSlideItem(1, SlideItem.TEXT,"De derde slide"));
+        slide.setTitle(createSlideItem(0, SlideItem.TEXT,"De derde slide"));
         slide.addItem(createSlideItem(1, SlideItem.TEXT,  "Om een nieuwe presentatie te openen,"));
         slide.addItem(createSlideItem(2, SlideItem.TEXT,  "gebruik File->Open uit het menu."));
         slide.addItem(createSlideItem(1, SlideItem.TEXT,  " "));

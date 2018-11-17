@@ -1,8 +1,6 @@
 package controllers;
 
 import filehandlers.FileHandler;
-import model.Presentation;
-import view.JabberPointComponent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -28,8 +26,7 @@ public class JabberPointFacade {
     }
 
     private JabberPointFacade() {
-        System.out.println("Facade constructor called");
-        this.fileHandler = FileHandler.getInstance();
+                this.fileHandler = FileHandler.getInstance();
         this.presentationController = new PresentationController();
     }
 
@@ -54,27 +51,23 @@ public class JabberPointFacade {
     }
 
     public void nextSlideItem() {
-        System.out.println("Next slide item");
-        this.presentationController.nextItem();
+                this.presentationController.nextItem();
     }
 
     public void previousSlideItem() {
-        System.out.println("Previous slide item");
-        this.presentationController.previousItem();
+                this.presentationController.previousItem();
     }
 
     public void nextSlide() {
-        System.out.println("Next slide");
-        this.presentationController.nextSlide();
+                this.presentationController.nextSlide();
     }
 
     public void previousSlide() {
-        System.out.println("Previous slide");
-        this.presentationController.previousSlide();
+                this.presentationController.previousSlide();
     }
 
-    public void navigateToSlide(int slideNumber) {
-        System.out.println("Navigate to slide with number " + slideNumber);
+    public boolean navigateToSlide(int slideNumber) {
+        return this.presentationController.navigateToSlide(slideNumber);
     }
 
     public String getAboutInformation() {
@@ -99,7 +92,10 @@ public class JabberPointFacade {
 
 
     public void redrawUI(Graphics g, Rectangle area) {
-        System.out.println("Redraw!");
-        this.presentationController.drawUI(g, area);
+                this.presentationController.drawUI(g, area);
+    }
+
+    public String getTitle() {
+        return this.presentationController.getTitle();
     }
 }

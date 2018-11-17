@@ -2,11 +2,9 @@ package model.item;
 
 import model.ItemStyle;
 import view.JabberDrawable;
-import view.JabberPointComponent;
 import view.JabberPointFrame;
 
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.util.Vector;
 
 /**
@@ -20,6 +18,7 @@ public abstract class SlideItem implements JabberDrawable {
     private Vector<SlideItem> children;
     protected ItemStyle itemStyle;
     private int level;
+    private int height;
 
     public SlideItem() {
         this.children = new Vector<>();
@@ -42,7 +41,17 @@ public abstract class SlideItem implements JabberDrawable {
     }
 
     public void addChild(SlideItem slideItem) {
-        this.children.add(slideItem);
+        if (this.children.isEmpty()) {
+            this.children.add(slideItem);
+            return;
+        }
+
+        SlideItem lastAddedChild = this.children.get(this.children.size() -1);
+        if (slideItem.getLevel() == lastAddedChild.getLevel()) {
+            this.children.add(slideItem);
+        } else {
+            lastAddedChild.addChild(slideItem);
+        }
     }
 
     public boolean isRootItem() {
@@ -51,15 +60,19 @@ public abstract class SlideItem implements JabberDrawable {
 
     @Override
     public void draw(Graphics g, Rectangle area) {
-        this.drawContent(g, area);
-        area.y += this.getHeight(g, area);
+        this.height = this.drawContent(g, area);
+        area.y += this.getHeight();
         for (SlideItem item : this.children) {
             item.draw(g, area);
         }
     }
 
+    protected int getHeight() {
+        return height;
+    }
+
     /**
-     * Helper method to calculate the scale of the image to fit within the area.
+     * Helper method to calculate the scale of the item to fit within the area.
      * @param area
      * @return
      */
@@ -67,6 +80,5 @@ public abstract class SlideItem implements JabberDrawable {
         return Math.min(((float)area.width) / ((float) JabberPointFrame.WIDTH), ((float)area.height) / ((float) JabberPointFrame.HEIGHT));
     }
 
-    abstract void drawContent(Graphics g, Rectangle area);
-    abstract int getHeight(Graphics g, Rectangle area);
+    abstract int drawContent(Graphics g, Rectangle area);
 }
