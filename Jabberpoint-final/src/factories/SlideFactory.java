@@ -1,5 +1,7 @@
 package factories;
 
+import model.Slide;
+
 /**
  * Created by ggo01
  */
@@ -16,5 +18,9 @@ public class SlideFactory {
 
     private SlideFactory() {
 
+    }
+
+    public Slide createSlide() {
+        return new Slide();
     }
 }

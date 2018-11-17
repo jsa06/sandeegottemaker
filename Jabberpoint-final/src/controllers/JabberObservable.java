@@ -18,8 +18,9 @@ public abstract class JabberObservable {
     }
 
     protected void notifyObservers() {
+        System.out.println("notifying " + observers.size() + " observers");
         for (JabberObserver observer : observers) {
-            observer.update(this);
+            observer.jabberUpdate(this);
         }
     }
 }

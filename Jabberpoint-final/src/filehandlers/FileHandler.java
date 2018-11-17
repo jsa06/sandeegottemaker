@@ -11,11 +11,21 @@ import java.io.IOException;
  */
 public class FileHandler {
 
+    private static FileHandler instance;
+
     private FileReader fileReader;
 
     private FileParserFactory fileParserFactory;
 
-    public FileHandler() {
+    public static FileHandler getInstance() {
+        if (instance == null) {
+            instance = new FileHandler();
+        }
+
+        return instance;
+    }
+
+    private FileHandler() {
         this.fileReader = new FileReader();
         this.fileParserFactory = FileParserFactory.getInstance();
     }

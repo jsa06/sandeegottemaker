@@ -10,11 +10,11 @@ import model.Presentation;
  */
 public abstract class FileParser {
 
-    private PresentationFactory presentationFactory;
+    protected PresentationFactory presentationFactory;
 
-    private SlideFactory slideFactory;
+    protected SlideFactory slideFactory;
 
-    private SlideItemFactory slideItemFactory;
+    protected SlideItemFactory slideItemFactory;
 
     public FileParser() {
         this.presentationFactory = PresentationFactory.getInstance();

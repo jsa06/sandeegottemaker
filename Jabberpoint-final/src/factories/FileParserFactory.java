@@ -2,6 +2,7 @@ package factories;
 
 import filehandlers.parser.DemoFileParser;
 import filehandlers.FileReader;
+import filehandlers.parser.EmptyFileParser;
 import filehandlers.parser.FileParser;
 import filehandlers.parser.XMLFileParser;
 
@@ -16,6 +17,8 @@ public class FileParserFactory {
 
     private DemoFileParser demoFileParser;
 
+    private EmptyFileParser emptyFileParser;
+
     public static FileParserFactory getInstance() {
         if (instance == null) {
             instance = new FileParserFactory();
@@ -27,10 +30,14 @@ public class FileParserFactory {
     private FileParserFactory() {
         this.xmlFileParser = new XMLFileParser();
         this.demoFileParser = new DemoFileParser();
+        this.emptyFileParser = new EmptyFileParser();
     }
 
     public FileParser getFileParser(String filename) {
-        if ("".equals(filename)) { // Automatically checks for null
+        if (filename == null) {
+            return emptyFileParser;
+        }
+        if ("".equals(filename)) {
             return demoFileParser;
         }
 

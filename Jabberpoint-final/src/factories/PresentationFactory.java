@@ -21,6 +21,6 @@ public class PresentationFactory {
     }
 
     public Presentation createPresentation() {
-        return null; //TODO
+        return new Presentation();
     }
 }
