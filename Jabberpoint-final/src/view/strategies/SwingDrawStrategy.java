@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by ggo01
+ * Strategy for drawing using the Swing Library.
  */
 public class SwingDrawStrategy extends DrawStrategy {
 
@@ -28,6 +29,11 @@ public class SwingDrawStrategy extends DrawStrategy {
         this.area = area;
     }
 
+    /**
+     * Primary draw method which supports Strings and Images currently.
+     * @param itemStyle Style to apply to the drawing.
+     * @param toDraw item to draw.
+     */
     @Override
     public void draw(ItemStyle itemStyle, Object toDraw) {
         if (toDraw instanceof BufferedImage) {
@@ -36,7 +42,12 @@ public class SwingDrawStrategy extends DrawStrategy {
             this.drawString(itemStyle, (String) toDraw);
         }
     }
-    
+
+    /**
+     * Draw a buffered Image according to the chosen style.
+     * @param itemStyle 
+     * @param bufferedImage
+     */
     private void drawImage(ItemStyle itemStyle, BufferedImage bufferedImage) {
         float scale = getScale();
         int width = area.x + (int) (itemStyle.getIndentation() * scale);
@@ -46,7 +57,12 @@ public class SwingDrawStrategy extends DrawStrategy {
 
         area.y += (int) (itemStyle.getLeading() * scale) + (int) (bufferedImage.getHeight(null) * scale);
     }
-    
+
+    /**
+     * Draw a string occording to the chosen style.
+     * @param itemStyle
+     * @param text
+     */
     private void drawString(ItemStyle itemStyle, String text) {
         int height = 0;
         if (text == null || text.length() == 0) {
@@ -72,6 +88,12 @@ public class SwingDrawStrategy extends DrawStrategy {
         area.y += height;
     }
 
+    /**
+     * Calculate the height of the text that is being generated.
+     * @param layout
+     * @param itemStyle
+     * @return
+     */
     private int calculateHeight(TextLayout layout, ItemStyle itemStyle) {
         int height = (int) layout.getDescent() + itemStyle.getLeading();
 
@@ -83,6 +105,12 @@ public class SwingDrawStrategy extends DrawStrategy {
         return height;
     }
 
+    /**
+     *
+     * @param text
+     * @param itemStyle
+     * @return
+     */
     private List<TextLayout> getLayouts(String text, ItemStyle itemStyle) {
         float scale = getScale();
 

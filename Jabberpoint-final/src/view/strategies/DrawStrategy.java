@@ -4,6 +4,7 @@ import model.ItemStyle;
 
 /**
  * Created by ggo01
+ * Abstract Class for setting up the draw strategy.
  */
 public abstract class DrawStrategy {
 

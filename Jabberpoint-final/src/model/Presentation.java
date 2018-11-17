@@ -8,6 +8,7 @@ import java.util.Vector;
 
 /**
  * Created by ggo01
+ * Presentation model object. Contains slides and commands for controlling the slides.
  */
 public class Presentation implements JabberDrawable {
 
@@ -33,16 +34,29 @@ public class Presentation implements JabberDrawable {
         this.slides.add(slide);
     }
 
+    /**
+     * Show the next slide item.
+     * Note: Method makes use of boolean order. When first statement returns false, it goes to the next statement
+     * @return True if successful, False if at the last slide.
+     */
     public boolean nextItem() {
-        // Method makes use of boolean order. When first statement returns false, it goes to the next statement
+
         return this.getCurrentSlide().nextItem() || this.nextSlide();
     }
 
+    /**
+     * Hide the most recently shown slide item.
+     * Note: Method makes use of boolean order. When first statement returns false, it goes to the next statement
+     * @return true if succesful, false if at the first slide.
+     */
     public boolean previousItem() {
-        // Method makes use of boolean order. When first statement returns false, it goes to the next statement
         return this.getCurrentSlide().previousItem() || this.previousSlide();
     }
 
+    /**
+     * Navigate to the next slide.
+     * @return true is succesful, false if presentation is at the last slide.
+     */
     public boolean nextSlide() {
         if (this.currentSlideNumber == this.slides.size() -1) {
             return false; // Do not add, because it is the last slide. Return false
@@ -52,6 +66,10 @@ public class Presentation implements JabberDrawable {
         return true;
     }
 
+    /**
+     * Navigate to the previous slide.
+     * @return true if succesful, false if the presentation is the first slide.
+     */
     public boolean previousSlide() {
         if (this.currentSlideNumber == 0) {
             return false; // Do not subtract, because it is the first slide. Return false

@@ -20,7 +20,7 @@ public class FileSaver {
      * Save the given presentation using the filename. Type is based parser.
      * @param presentation Presentation to save.
      * @param filename filename without extension
-     * @return True if save is succesful, false if it fails.
+     * @return True if save is successful, false if it fails.
      * @throws IOException
      */
     public Boolean saveFile(Presentation presentation, String filename) throws IOException {
