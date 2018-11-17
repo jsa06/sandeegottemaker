@@ -171,11 +171,14 @@ Er zijn regels waar bepaalde acties aan moeten voldoen voordat de betreffende ac
  	Vaste styling & Er is een voorgedefinieerde set styling beschikbaar.\\
  	Type van items & Items moeten van type kunnen verschillen. Het hangt \\& per type af of er wat gedaan wordt met de styling.\\
  	Beginstaat slide & Wanneer een slide weergegeven wordt, is initieel alleen \\& de titel zichtbaar. \\
- 	Volgende slide & De volgende slide is alleen beschikbaar wanneer alle items \\& zichtbaar zijn en er een volgende slide beschikbaar is.\\
- 	Vorige slide & De vorige slide is alleen beschikbaar wanneer alleen de \\& titel zichtbaar is en er een vorige slide beschikbaar is.\\
+ 	Volgende slide & De volgende slide moet worden getoond als alle items \\& zichtbaar zijn en er een volgende slide beschikbaar is.\\
+ 	Vorige slide & De vorige slide moet worden getoond wanneer alleen de \\& titel zichtbaar is en er een vorige slide beschikbaar is.\\
+ 	Direct navigeren & Het moet mogelijk zijn om ook direct naar een volgende \\& of vorige slide te navigeren, zonder alle items te zien.\\
  	Specifieke slide & Er kan alleen naar een specifieke slide genavigeerd worden \\& wanneer er een geldige slidenummer is opgegeven.\\
  	Level bepalend & Het level van een element bepaalt wie de ouder van dat \\& element is. Hoe hoger het level, hoe dieper de structuur.\\
  	Edit niet mogelijk & In de huidige vorm van JabberPoint, is het editen van \\& slides niet mogelijk. Mogelijke Feature request.\\
+ 	Alles tonen & Het is mogelijk om in de inputbestanden aan te geven \\& of een slide alle items in \1 moet tonen of niet.\\
+ 	Standaard gedrag & Wanneer er geen waarde wordt aangegeven in de input, \\& wordt als standaard gedrag alleen de titel getoond.\\
   	\bottomrule
 	\end{tabular}
 \caption{Lijst van regels binnen het domein.}
@@ -226,26 +229,29 @@ opgeslagen. Het enige wat JabberPointFacade doet, is de FileHandler opdracht gev
 
 \section{Keuzen}
 \label{sec:keuzen}
-\todo{Gemaakte keuzen verantwoorden op twee gebieden: Ontwerp en Implementatie}
+Gedurende het ontwerpen, herontwerpen en implementeren, zijn er verschillende keuzen gemaakt. De belangrijkste keuzen zijn hier opgeschreven. De keuzen zijn redelijk technisch beschreven, om dichtbij het ontwerp en de implementatie te blijven.
+
 \subsection{Facade}
-De Facase was ons uitgangspunt bij het ontwerpen van deze tool. Alle acties
-waren gebruiker gestuurd welke op twee manieren aangestuurd konden worden. Via
-een menubalk of via toetsenbordcommando's. Hierdoor werdt het al snel duidelijk
-dat deze commando's op een centraal punt gebracht moesten worden voor de verder
-aansturing van de applicatie.
+Toen we het class diagram ontworpen hebben op basis van de analyse uit dit document, hebben we als uitgangspunt het Facade pattern gebruikt. Het was voor ons namelijk erg belangrijk om de GUI zoveel mogelijk te scheiden van de daadwerkelijke functionaliteit. Het Facade pattern stelde ons in staat om de context van de GUI direct goed te scheiden van de context van de functionaliteit. Vervolgens zijn we met deze twee contexten verder gaan werken met andere design patterns.
 
 \subsection{Observer}
-De GUI weet eigenlijk niks van de werking van het programma. De GUI is eigenlijk
-ook alleen maar geinteresseerd in weten wat er weergegeven moet worden. Zodra
-een presentatie van slide wisselt dan geeft deze aan dat er iets is gewijzigt in
-de weergave. De GUI gaat dan kijken wat deze wijziging is.
+Zoals hierboven beschreven, is de GUI gescheiden van de functionaliteit. Dit zorgt echter voor \1 probleem: Hoe zorgt de GUI ervoor dat het weet wanneer het scherm opnieuw getekend moet worden? Dit vraagstuk is perfect op te lossen met het Observer / Observable pattern. Wanneer via de Facade gebruikersinput ervoor zorgt dat de presentatie aangepast wordt (volgende slide, volgende item, open andere presentatie, etc), zal de presentatie een seintje geven aan de GUI. Dit is mogelijk door het interface Observer, welke een update methode beschikbaar stelt. De update methode uit Observer wordt ge\"{i}mplementeerd door de GUI, welke een repaint zal veroorzaken. Dit werkt in combinatie met de abstract class Observable, welke een manier kent om Observers te registreren en om Observers te seinen dat er wat veranderd is. Deze abstract class wordt gebruikt door de PresentationController. Waarom PresentationController deze abstract class gebruikt en niet Presentation zelf, wordt uitgelegd in het kopje \ref{sub:presCntrllr}.
 
 \subsection{Factories}
-Er is gekozen voor een strakke scheiding tussen creatie en gebruik van objecten.
+Er is gekozen voor een strakke scheiding tussen creatie en gebruik van objecten. Om dit te verwezenlijken, zijn er meerdere Factories gemaakt. Deze Factories zijn allemaal terug te vinden in het bijgeleverde diagram.
+\\\\
+Een van de Factories vergt wat uitleg. De ItemStylePool is een speciale soort Factory die slechts een paar instanties van het object ItemStyle maakt. In JabberPoint (uitgangspunt en uiteindelijke versie) staan de stijlen van de verschillende levels namelijk vast. Dit betekent dat er slechts vijf instanties van de class ItemStyle nodig zijn. Om te zorgen dat er geen nodeloze kopie\"{e}n van hetzelfde object zijn, is deze ItemStylePool ontworpen. De ItemStylePool heeft vijf instanties van ItemStyle en geeft een referentie naar \1 van deze vijf objecten wanneer daar om gevraagd wordt.
 
-\subsection{Strategy}
+\subsection{Strategies}
+\subsubsection{ItemParser}
+\subsubsection{ItemEncoder}
 
+\subsection{Draw functionaliteit}
+In een eerdere iteratie van het ontwerp hebben we geprobeerd de GUI en de functionaliteit zo goed mogelijk te scheiden. Dat is aardig gelukt, op \1 vlak na: het tekenen van de items op het scherm. In een nieuwe iteratie van het ontwerp hebben we dit zo goed mogelijk proberen op te lossen. We hebben hier een soort Strategy pattern van proberen te maken, welke dynamisch bij elke aanroep van draw meegegeven wordt. De Model objecten zijn dus niet rechtstreeks afhankelijk van de juiste Strategy, maar deze wordt meegegeven bij de aanroep van drawUI. Op deze manier kan het Model de draw functie van de Strategy aanroepen. Op dit moment is de applicatie volledig gebouwd op Java Swing, maar dankzij deze speciale Strategy is het absoluut niet ondenkbaar dat de applicatie op ten duur ook bijvoorbeeld een GUI gebouwd op HTML kan ondersteunen, zonder daarvoor ontzettend veel aanpassingen voor te hoeven doen. Een nieuwe concrete implementatie van de DrawStrategy is dan namelijk voldoende.
 
+\subsection{PresentationController}
+\label{sub:presCntrllr}
+In een eerdere iteratie van het ontwerp was gekozen om de abstracte class Observable te laten implementeren door Presentation. De Facade stuurde de commando's rechtstreeks door naar Presentation (waar toepasselijk) en Presentation gaf vervolgens een seintje naar de GUI dat het aangepast was. Dit heeft echter \1 groot probleem, namelijk dat wanneer er een nieuwe Presentation geopend werd, de GUI niet zomaar kon weten dat de oude Presentation niet meer relevant was. De GUI werd dan niet direct ge\"{u}pdatet bij het wijzigen van de te tonen Presentation, zoals na het laden van een ander bestand. Een ander gevaar bij het Observer / Observable pattern is dat oude (niet relevante) Presentation objecten niet automatisch meer opgeschoond worden door de Garbage Collector. De Observer heeft namelijk nog een referentie (via het aanmelden) naar de Presentation. Om deze redenen is gekozen om een PresentationController tussen de Facade en Presentation te zetten. Deze Controller vangt de opdrachten van de Facade op en speelt ze door naar Presentation. Deze Controller implementeert de abstrace class Observable in plaats van Presentation. Wanneer er een andere Presentation geladen wordt, is de Controller nog hetzelfde. De GUI kan dus nog steeds seintjes ontvangen van de Controller, ook al is de Presentation een hele andere instantie.
 
 \section{Sourcecode}
 \label{sec:source}
