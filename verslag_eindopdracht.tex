@@ -28,6 +28,8 @@
 	\item Gerralt Gottemaker --- 852083852
 \end{description}
 
+Hierbij verklaren we, Gerralt Gottemaker en Jan Jaap Sandee, dat we dit document zelf geschreven hebben. Ook het opgeleverde class diagram en de opgeleverde code is door onszelf gemaakt.
+
 \section*{Aanpak}
 Om de opdracht succesvol af te ronden, is het zaak om goed samen te werken. We hebben het geluk collega's te zijn, wat het communiceren een aanzienlijk stuk gemakkelijker maakt. In dit hoofdstuk staat de aanpak beschreven die we gekozen hebben. De volgorde waarin het opgeschreven is, is ook de volgorde waarin we gewerkt hebben. Verder staat per item beschreven wie hieraan gewerkt heeft. Als niet vermeld wordt wie eraan gewerkt heeft, hebben beide teamgenoten eraan gewerkt.
 
@@ -170,13 +172,13 @@ Er zijn regels waar bepaalde acties aan moeten voldoen voordat de betreffende ac
 \section{Ontwerp}
 \label{sec:ontwerp}
 Het ontwerp is op te delen in vijf onderdelen die elk een eigen
-verantwoordelijkheid hebben. JabberPoint de main class instantieert alleen de
+verantwoordelijkheid hebben. JabberPoint, de main class, instanti\"{e}ert alleen de
 SlideViewerFrame, welke vervolgens de rest van de GUI op zal bouwen.
 
 \subsection{GUI}
 De GUI is alleen verantwoordelijk voor de weergave aan de gebruiker.
 SlideViewerFrame bouwt de gehele interface op. De GUI heeft geen idee van de
-huidige presentaties, maar vertrouwd op een observer om te weten wanneer er iets
+huidige presentaties, maar vertrouwt op een observer om te weten wanneer er iets
 nieuws getoond moet worden.
 
 \subsection{Controllers}
@@ -185,7 +187,7 @@ De belangrijkste controller is de JabberPointFacade, welke aanroepen ontvangt va
 De Facade registreert de Observer die is JabberPointComponent bij de Observable, de Presentatie. Dus de koppeling tussen Presentation en JabberPointComponent bestaat alleen maar via de observer pattern. Omdat zowel Presentation als JabberPointComponent gebruikmaken van respectievelijk een abstract class en een interface, weten Presentation en JabberPointComponent niet direct af van elkaars bestaan. Dit waarborgt het low coupling principe.
 
 \subsection{Models}
-Alle classes in het Model onderdeel zijn bedoeld om data op te slaan, aan te passen en inzichtelijk te maken. Hierbij is de hi\"{e}rarchie Presentation - Slide - SlideItem de belangrijkste. Via de Presentation is alle informatie over de huidige presentatie inzichtelijk. Ook bevatten deze classes methoden om getekend te kunnen worden. Deze methoden worden via de Facade aangeroepen en vervolgens naar de juiste plek doorgespeeld. Er zijn twee typen SlideItem: Een TextItem en een ImageItem. In het ontwerp is rekening gehouden met eventueel nieuwe typen, zoals een VideoItem of iets dergelijks. Een bijzondere aanpassing vanuit het oude systeem in het nieuwe systeem is het feit dat SlideItem nu een lijst heeft met SlideItems. Dit is bedoeld om de structuur van levels beter op te slaan. Door deze structuur is het in de toekomst ook makkelijker om andere datatypen, zoals JSON, te ondersteunen. JSON heeft namelijk de eigenschap dat het veel geneste structuren bevat. Deze geneste structuren zijn dankzij de nieuwe SlideItem structuur gemakkelijker te realiseren in een later stadium.
+Alle classes in het Model onderdeel zijn bedoeld om data op te slaan, aan te passen en inzichtelijk te maken. Hierbij is de hi\"{e}rarchie Presentation - Slide - SlideItem de belangrijkste. Via de Presentation is alle informatie over de huidige presentatie inzichtelijk. Ook bevatten deze classes methoden om getekend te kunnen worden. Deze methoden worden via de Facade aangeroepen en vervolgens naar de juiste plek doorgespeeld. Er zijn twee typen SlideItem: Een TextItem en een ImageItem. In het ontwerp is rekening gehouden met eventueel nieuwe typen, zoals een VideoItem of iets dergelijks. Een bijzondere aanpassing vanuit het oude systeem in het nieuwe systeem is het feit dat SlideItem nu een lijst heeft met SlideItems. Dit is bedoeld om de structuur van levels beter op te slaan. Door deze structuur is het in de toekomst ook makkelijker om andere datatypen, zoals JSON, te ondersteunen. JSON heeft namelijk de eigenschap dat het veel geneste structuren bevat. Deze geneste structuren zijn dankzij de nieuwe SlideItem structuur gemakkelijker te realiseren in een later stadium. Hoe de geneste structuur technisch gezien werkt, wordt toegelicht in het kopje \ref{sec:source}.
 \\\\
 Verder is het hier goed om te vermelden dat er precies vijf typen Style beschikbaar zijn. Hoe deze Style objecten ge\"{i}nstantieerd worden, wordt besproken in kopje \ref{sub:factories}.
 
@@ -202,11 +204,11 @@ die zijn eigen Items aanmaakt, echter dit zou betekenen dat de Presentatie
 rechtstreeks toegang moet hebben tot de filedata wat niet wenselijk is.
 \\\\
 Verder is er een ObjectPool voor de Styles. Dit pattern wordt gebruikt om te
-waarborgen dat er ten aller tijden precies vijf stijlen beschikbaar zijn. Hiermee wordt voorkomen dat er voor elke nieuwe SlideItem een nieuw Style object wordt aangemaakt. Dit is in kleine aantallen geen probleem, alleen kan het een probleem worden wanneer er Presentaties met bijvoorbeeld 1000 SlideItems geladen wordt. Om daar dan 1000 objecten met hooguit vijf variaties voor te maken, is een domme keuze in onze ogen. Een bijkomend voordeel is dat het op deze manier erg makkelijk wordt om nieuwe Styles toe te voegen aan de standaard pool. Mochten er ooit level 5 items ondersteund moeten worden, hoeft er slechts een Style aan de Pool toegevoegd te worden.
+waarborgen dat er ten aller tijden precies vijf stijlen beschikbaar zijn. Hiermee wordt voorkomen dat er voor elke nieuwe SlideItem een nieuw Style object wordt aangemaakt. Dit is in kleine aantallen geen probleem, alleen kan het een probleem worden wanneer er Presentaties met bijvoorbeeld 1000 SlideItems geladen wordt. Om daar dan 1000 objecten met hooguit vijf variaties voor te maken, is een domme keuze in onze ogen. Een bijkomend voordeel is dat het op deze manier erg makkelijk wordt om nieuwe Styles toe te voegen aan de standaard pool. Mochten er ooit level 5 items (of meer) ondersteund moeten worden, hoeft er slechts een Style aan de Pool toegevoegd te worden.
 
 \subsection{FileHandlers}
-De Filehandler is op zijn beurt weer een soort Facade voor de JabberFacade.
-Namelijk JabberFacade heeft geen weet van hoe presentaties worden uitgelezen of
+De Filehandler is op zijn beurt weer een soort Facade voor de JabberPointFacade.
+De JabberPointFacade heeft namelijk geen weet van hoe presentaties worden uitgelezen of
 opgeslagen. Het enige wat JabberPointFacade doet, is de FileHandler opdracht geven om op te slaan / in te lezen. Vervolgens kiest de FileHandler de juiste handeling en strategie. De FileHandler regelt het inlezen en schrijven zelf niet: dit wordt namelijk gedelegeerd naar twee classes. Hierdoor kunnen aparte parsers en encoders bestaan. Ook zijn de taken lezen en schrijven te asymmetrisch om opgelost te worden door dezelfde class. Door de splitsing wordt het cohesion principe ook gewaarborgd.
 
 \section{Keuzen}
@@ -245,7 +247,7 @@ In een eerdere iteratie van het ontwerp was gekozen om de abstracte class Observ
 \label{sec:source}
 In deze sectie wordt de sourcecode beschreven. Allereerst zal er wat verteld worden over het refactorproces en wat pijnpuntjes waar we tegenaan liepen, waarna de applicatie zelf beschreven wordt.
 \\\\
-We zijn begonnen met een leeg project. Hier hebben we alle classes toegevoegd die de structuur van het ontwerp volgen. Connecties zijn tussen de classes gelegd en de Factories direct gemaakt. De code van de Factories is namelijk vrij triviaal. Verder is de GUI uit het vorige project genomen en gerefactored om in de nieuwe structuur te passen. De Facade is gemaakt met stubs (printjes om de werking te testen) en vervolgens de structuur van het Model. Daarna is het afhandelen van de bestanden gebouwd en het programma getest. Er werd op dat moment nog niets getekend op het scherm, maar de structuur werd perfect ingelezen.
+We zijn begonnen met een leeg project. Hier hebben we alle classes toegevoegd die de structuur van het ontwerp volgen. Connecties zijn tussen de classes gelegd en de Factories direct gemaakt. De code van de Factories is namelijk vrij triviaal. Verder is de GUI uit het vorige project genomen en vrijwel helemaal opnieuw gebouwd om in de nieuwe structuur te passen. De Facade is gemaakt met stubs (printjes om de werking te testen) en vervolgens de structuur van het Model. Daarna is het afhandelen van de bestanden gebouwd en het programma getest. Er werd op dat moment nog niets getekend op het scherm, maar de structuur werd perfect ingelezen. De enige code dat bijna in zijn geheel is overgenomen van het oude project naar het nieuwe project, is de functionaliteit om te tekenen. Deze code is weggestopt in zijn eigen abstractie (SwingDrawStrategy) en kan dus in een later stadium makkelijk worden omgebouwd.
 
 Bij het bouwen van het draw mechanisme bleek al gauw dat we daar nog niet goed genoeg over nagedacht hadden. Het uitgangspunt was om View en Model te scheiden, maar om te tekenen bleek het Model de View nodig te zijn. Dit resulteerde in code die bijna net zo rommelig was als de oude code. Na overleg tussen Gerralt en Jan Jaap, is gekozen voor een soort Strategy structuur die meegegeven wordt in de parameters van de draw methode. Deze Strategy wordt gebruikt om het tekenen te abstraheren en nu is View en Model keurig losgekoppeld.
 \\\\
