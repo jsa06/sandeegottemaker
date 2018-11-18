@@ -4,6 +4,7 @@ import model.Presentation;
 
 /**
  * Created by ggo01
+ * Generate a correct Presentation.
  */
 public class PresentationFactory {
 

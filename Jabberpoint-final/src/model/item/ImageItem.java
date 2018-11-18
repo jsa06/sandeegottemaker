@@ -9,6 +9,8 @@ import java.io.IOException;
 
 /**
  * Created by ggo01
+ * Image Items use the filename to load the image into a Buffered Image.
+ * The image file name can still be returned for saving purposes.
  */
 public class ImageItem extends SlideItem {
 

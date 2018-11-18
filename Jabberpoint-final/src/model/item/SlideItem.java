@@ -10,6 +10,8 @@ import java.util.Vector;
 
 /**
  * Created by ggo01
+ * Generic Slide item class. All Slide Items inherit from this.
+ * Slide Items can have children which dictates items that are shown below it.
  */
 public abstract class SlideItem implements JabberDrawable {
 
@@ -19,7 +21,6 @@ public abstract class SlideItem implements JabberDrawable {
     private Vector<SlideItem> children;
     protected ItemStyle itemStyle;
     private int level;
-    protected int height;
 
     public SlideItem() {
         this.children = new Vector<>();
@@ -31,6 +32,10 @@ public abstract class SlideItem implements JabberDrawable {
 
     abstract public String getContent();
 
+    /**
+     * Set the content of this item. This can change based on what type of item it is.
+     * @param content
+     */
     abstract public void setContent(String content);
 
     public void setLevel(int level) {
@@ -41,6 +46,10 @@ public abstract class SlideItem implements JabberDrawable {
         return level;
     }
 
+    /**
+     * Add a child to this item.
+     * @param slideItem
+     */
     public void addChild(SlideItem slideItem) {
         if (this.children.isEmpty()) {
             this.children.add(slideItem);
@@ -59,6 +68,11 @@ public abstract class SlideItem implements JabberDrawable {
         return this.getLevel() == 1;
     }
 
+    /**
+     * Draw the current item according to the correct strategy.
+     * Als draw all the child items of this item.
+     * @param strategy
+     */
     @Override
     public void draw(DrawStrategy strategy) {
         this.drawContent(strategy);

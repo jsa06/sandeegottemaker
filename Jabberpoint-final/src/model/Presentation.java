@@ -54,7 +54,8 @@ public class Presentation implements JabberDrawable {
     }
 
     /**
-     * Navigate to the next slide.
+     * This method has two primary conditions. If not all items are visible it will show all items.
+     * If all items are visible it will navigate to the next slide.
      * @return true is succesful, false if presentation is at the last slide.
      */
     public boolean nextSlide() {
@@ -72,11 +73,14 @@ public class Presentation implements JabberDrawable {
     }
 
     /**
-     * Navigate to the previous slide.
+     * This method has two primary conditions. If items are visible clear the slide.
+     * If no items are visible move to the previous slide.
+     * It also doesn't clear the slides, which means that when navigating back all items will be shown.
+     * This is by design as it gives a more natural feel.
      * @return true if succesful, false if the presentation is the first slide.
      */
     public boolean previousSlide() {
-        if(this.getCurrentSlide().getCurrentlyVisibleIndex() == this.getCurrentSlide().getSlideItems().size()){
+        if(this.getCurrentSlide().getCurrentlyVisibleIndex() > 0){
             this.getCurrentSlide().setCurrentlyVisibleIndex(0);
             return true;
         }
@@ -110,6 +114,8 @@ public class Presentation implements JabberDrawable {
 
     /**
      * Navigate to a specific slide.
+     * Note: If the slide has been displayed previously all items will be shown.
+     * If a slide has not been shown yet, it will be blank.
      * @param slideNumber
      * @return True if succesful, false if failed.
      */

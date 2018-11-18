@@ -24,8 +24,10 @@ public class DemoFileParser extends FileParser {
         slide.addItem(createSlideItem(4, SlideItem.TEXT, "JabberPoint aanroepen zonder bestandsnaam"));
         slide.addItem(createSlideItem(4, SlideItem.TEXT, "laat deze presentatie zien"));
         slide.addItem(createSlideItem(1, SlideItem.TEXT, "Navigeren:"));
-        slide.addItem(createSlideItem(3, SlideItem.TEXT, "Volgende slide: PgDn of Enter"));
-        slide.addItem(createSlideItem(3, SlideItem.TEXT, "Vorige slide: PgUp of up-arrow"));
+        slide.addItem(createSlideItem(3, SlideItem.TEXT, "Volgende item/slide: PgDn of Enter of down-arrow"));
+        slide.addItem(createSlideItem(3, SlideItem.TEXT, "Toon hele slide/volgende slide: right-arrow"));
+        slide.addItem(createSlideItem(3, SlideItem.TEXT, "Vorige item: PgUp of up-arrow"));
+        slide.addItem(createSlideItem(3, SlideItem.TEXT, "Reset Slide/Vorige Slide: left-arrow."));
         slide.addItem(createSlideItem(3, SlideItem.TEXT, "Stoppen: q or Q"));
         presentation.addSlide(slide);
 

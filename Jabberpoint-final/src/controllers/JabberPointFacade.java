@@ -8,6 +8,8 @@ import java.io.IOException;
 
 /**
  * Created by ggo01
+ * Main control Facade for the program. It relays all commands to the rest of the program.
+ * It also gives an interface for connecting to the observer of the presentation.
  */
 public class JabberPointFacade {
 

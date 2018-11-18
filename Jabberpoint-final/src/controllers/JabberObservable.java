@@ -4,6 +4,7 @@ import java.util.Vector;
 
 /**
  * Created by ggo01
+ * Custom Observable class which is used inform the GUI changes have been made.
  */
 public abstract class JabberObservable {
 

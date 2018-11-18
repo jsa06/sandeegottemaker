@@ -5,6 +5,7 @@ import filehandlers.encoder.XMLFileEncoder;
 
 /**
  * created by jsa06
+ * Create an Encoder for saving the presentation to a file.
  */
 public class FileEncoderFactory {
     private static FileEncoderFactory instance;

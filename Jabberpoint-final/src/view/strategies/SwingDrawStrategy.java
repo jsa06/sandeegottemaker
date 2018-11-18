@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * Created by ggo01
  * Strategy for drawing using the Swing Library.
+ * The methods in this class were lifted from the original version of JabberPoint and mostly unmodified in their working.
  */
 public class SwingDrawStrategy extends DrawStrategy {
 
@@ -45,7 +46,7 @@ public class SwingDrawStrategy extends DrawStrategy {
 
     /**
      * Draw a buffered Image according to the chosen style.
-     * @param itemStyle 
+     * @param itemStyle
      * @param bufferedImage
      */
     private void drawImage(ItemStyle itemStyle, BufferedImage bufferedImage) {
@@ -106,10 +107,10 @@ public class SwingDrawStrategy extends DrawStrategy {
     }
 
     /**
-     *
-     * @param text
-     * @param itemStyle
-     * @return
+     * Get the TextLayouts for the current text being generated.
+     * @param text text to be shown
+     * @param itemStyle style to be used for indentation.
+     * @return List of TextLayouts
      */
     private List<TextLayout> getLayouts(String text, ItemStyle itemStyle) {
         float scale = getScale();
@@ -127,6 +128,13 @@ public class SwingDrawStrategy extends DrawStrategy {
         return layouts;
     }
 
+
+    /**
+     * Convert string to an AttributedString
+     * @param text
+     * @param itemStyle
+     * @return Attributed String using the chosen style.
+     */
     private AttributedString getAttributedString(String text, ItemStyle itemStyle) {
         float scale = getScale();
 

@@ -11,6 +11,9 @@ import java.awt.event.KeyEvent;
  * @version 1.4 2007/07/16 Sylvia Stuurman
  * @version 1.5 2010/03/03 Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
+ * @version 1.7 2018/11/18 Gerralt Gottemaker en Jan Jaap Sandee
+ * Changed all commands to relay commands to the JabberPointFacade.
+ * Basic structure based on original version.
 */
 
 public class KeyController extends KeyAdapter {

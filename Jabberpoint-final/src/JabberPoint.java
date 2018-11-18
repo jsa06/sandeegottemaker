@@ -6,6 +6,8 @@ import java.io.IOException;
 
 /**
  * Created by ggo01
+ * Original JabberPoint program by: Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
+ * Refactor by: Jan Jaap Sandee and Gerralt Gottemaker
  */
 public class JabberPoint {
 

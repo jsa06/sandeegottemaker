@@ -7,6 +7,8 @@ import filehandlers.parser.XMLFileParser;
 
 /**
  * Created by ggo01
+ * Create the correct FileParser to use for reading files based on arguments.
+ * NOTE: Currently XML is the only supported external Filetype.
  */
 public class FileParserFactory {
 

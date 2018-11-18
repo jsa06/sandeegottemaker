@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 
 /**
  * Created by ggo01
+ * This is the primary display frame that sets up all the required sub-components that make up the GUI.
  */
 public class JabberPointFrame extends JFrame {
     private static final long serialVersionUID = 3227L;

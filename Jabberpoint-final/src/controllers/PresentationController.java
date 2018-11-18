@@ -7,6 +7,8 @@ import java.awt.*;
 
 /**
  * Created by ggo01
+ * Main Presentation Controller which is also the observable object.
+ * It tracks if anything changes in the presentation and sends the correct notifications.
  */
 public class PresentationController extends JabberObservable {
 

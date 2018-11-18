@@ -4,6 +4,7 @@ import view.strategies.DrawStrategy;
 
 /**
  * Created by ggo01
+ * Basic textitem to show in a presentation.
  */
 public class TextItem extends SlideItem {
 

@@ -4,6 +4,7 @@ import java.awt.*;
 
 /**
  * Created by ggo01
+ * Item Style model that defines all possible settings for a styling.
  */
 public class ItemStyle {
 
@@ -38,6 +39,11 @@ public class ItemStyle {
         return leading;
     }
 
+    /**
+     * NOTE: Currently the default is font is Helvetica.
+     * @param scale
+     * @return
+     */
     public Font getFont(float scale) {
         Font font = new Font("Helvetica", Font.BOLD, points);
         return font.deriveFont(points * scale);

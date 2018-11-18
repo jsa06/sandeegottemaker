@@ -10,6 +10,8 @@ import java.awt.*;
 
 /**
  * Created by ggo01
+ * The primary view of the presentation.
+ * It uses an observer to know when it needs to redraw it's contents.
  */
 public class JabberPointComponent extends JComponent implements JabberObserver {
 
@@ -48,6 +50,10 @@ public class JabberPointComponent extends JComponent implements JabberObserver {
         update(g);
     }
 
+    /**
+     * When the presentation is updated the signal will trigger a redraw through update.
+     * @param g
+     */
     @Override
     public void update(Graphics g) {
         this.frame.setTitle(this.jabberPointFacade.getTitle());

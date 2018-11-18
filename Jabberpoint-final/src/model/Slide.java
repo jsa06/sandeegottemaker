@@ -9,6 +9,7 @@ import java.util.Vector;
 
 /**
  * Created by ggo01
+ * The Slide model which contains a collection of Slide items.
  */
 public class Slide implements JabberDrawable {
 
@@ -29,6 +30,10 @@ public class Slide implements JabberDrawable {
         this.title = title;
     }
 
+    /**
+     * Display the next level 1 item.
+     * @return True if successful, false if there are no more items to show.
+     */
     public boolean nextItem() {
         if (!this.transitionEnabled || this.currentlyVisibleIndex == this.slideItems.size()) {
             // All items are already displayed. Relay this to the Presentation using the boolean false (not succeeded)
@@ -39,6 +44,10 @@ public class Slide implements JabberDrawable {
         return true;
     }
 
+    /**
+     * Remove the last level 1 item displayed.
+     * @return True if successful, false if there are no items shown.
+     */
     public boolean previousItem() {
         if (!this.transitionEnabled || this.currentlyVisibleIndex == 0) {
             // All items are already hidden. Relay this to the Presentation using the boolean false (not succeeded)
@@ -48,29 +57,34 @@ public class Slide implements JabberDrawable {
         return true;
     }
 
+    /**
+     * Add a new item. If an item is level 1 then it will be added to the top.
+     * Any level that is a higher number will be delegated to the last added item of a lower level.
+     * This results in a nested structure for the items.
+     * @param slideItem
+     */
     public void addItem(SlideItem slideItem) {
         if (this.slideItems.isEmpty()) {
-            // Add to slideItems, because list is currently empty.
             this.slideItems.add(slideItem);
             return;
         }
 
         if(slideItem.isRootItem()) {
-            // Add to slideItems, because it is a level 1 (root) item
             this.slideItems.add(slideItem);
             return;
         }
 
         SlideItem lastAdded = this.slideItems.get(slideItems.size() -1);
         if (slideItem.getLevel() == lastAdded.getLevel()) {
-            // Add to slideItems, since it has the same level. Item should live next to lastAdded, because they are siblings
             this.slideItems.add(slideItem);
         } else {
-            // Add to last added slideItem, because it should be a child of that item
             lastAdded.addChild(slideItem);
         }
     }
 
+    /**
+     * Reset this slide.
+     */
     public void resetSlide() {
         if (this.transitionEnabled) {
             this.currentlyVisibleIndex = 0;
@@ -85,10 +99,6 @@ public class Slide implements JabberDrawable {
 
     public void setCurrentlyVisibleIndex(int newindex) {
         this.currentlyVisibleIndex = newindex;
-    }
-
-    public boolean isTransitionEnabled() {
-        return transitionEnabled;
     }
 
     public void setTransitionEnabled(boolean transitionEnabled) {

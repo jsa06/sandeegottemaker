@@ -7,6 +7,8 @@ import java.awt.*;
 
 /**
  * Created by ggo01
+ * Generate the correct DrawStrategy based on current GUI requirements.
+ * NOTE: Currently only Swing is supported.
  */
 public class DrawStrategyFactory {
 

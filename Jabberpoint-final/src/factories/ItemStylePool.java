@@ -6,6 +6,8 @@ import java.awt.*;
 
 /**
  * Created by ggo01
+ * The program has 5 fixed Styles which was loaded into memory once.
+ * This singleton allows access to these styles based on the level set in an item.
  */
 public class ItemStylePool {
 

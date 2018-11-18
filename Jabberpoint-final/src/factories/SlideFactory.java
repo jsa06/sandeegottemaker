@@ -4,6 +4,7 @@ import model.Slide;
 
 /**
  * Created by ggo01
+ * Generate a correct Slide.
  */
 public class SlideFactory {
 

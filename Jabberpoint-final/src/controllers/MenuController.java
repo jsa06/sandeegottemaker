@@ -14,6 +14,9 @@ import java.io.IOException;
  * @version 1.4 2007/07/16 Sylvia Stuurman
  * @version 1.5 2010/03/03 Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
+ * @version 1.7 2018/11/18 Gerralt Gottemaker en Jan Jaap Sandee
+ * Menu controller only relays it's commands to the JabberPointFacade now rather than having direct controll.
+ * Basic structure was based on the original program.
  */
 public class MenuController extends MenuBar {
 	
