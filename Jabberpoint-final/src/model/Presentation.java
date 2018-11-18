@@ -58,9 +58,14 @@ public class Presentation implements JabberDrawable {
      * @return true is succesful, false if presentation is at the last slide.
      */
     public boolean nextSlide() {
+        if(this.getCurrentSlide().getCurrentlyVisibleIndex() < this.getCurrentSlide().getSlideItems().size()){
+            this.getCurrentSlide().setCurrentlyVisibleIndex(this.getCurrentSlide().getSlideItems().size());
+            return true;
+        }
         if (this.currentSlideNumber == this.slides.size() -1) {
             return false; // Do not add, because it is the last slide. Return false
         }
+
         this.currentSlideNumber++;
         this.getCurrentSlide().resetSlide();
         return true;
@@ -71,11 +76,14 @@ public class Presentation implements JabberDrawable {
      * @return true if succesful, false if the presentation is the first slide.
      */
     public boolean previousSlide() {
+        if(this.getCurrentSlide().getCurrentlyVisibleIndex() == this.getCurrentSlide().getSlideItems().size()){
+            this.getCurrentSlide().setCurrentlyVisibleIndex(0);
+            return true;
+        }
         if (this.currentSlideNumber == 0) {
             return false; // Do not subtract, because it is the first slide. Return false
         }
         this.currentSlideNumber--;
-        this.getCurrentSlide().resetSlide();
         return true;
     }
 
@@ -100,6 +108,11 @@ public class Presentation implements JabberDrawable {
         this.getCurrentSlide().draw(strategy);
     }
 
+    /**
+     * Navigate to a specific slide.
+     * @param slideNumber
+     * @return True if succesful, false if failed.
+     */
     public boolean navigateToSlide(int slideNumber) {
         if (slideNumber < 1 || slideNumber > this.getNumberOfSlides()) {
             return false;

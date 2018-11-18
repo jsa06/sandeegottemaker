@@ -79,6 +79,14 @@ public class Slide implements JabberDrawable {
         }
     }
 
+    public int getCurrentlyVisibleIndex() {
+        return currentlyVisibleIndex;
+    }
+
+    public void setCurrentlyVisibleIndex(int newindex) {
+        this.currentlyVisibleIndex = newindex;
+    }
+
     public boolean isTransitionEnabled() {
         return transitionEnabled;
     }
