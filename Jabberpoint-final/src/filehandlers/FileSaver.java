@@ -23,7 +23,7 @@ public class FileSaver {
      * @return True if save is successful, false if it fails.
      * @throws IOException
      */
-    public Boolean saveFile(Presentation presentation, String filename) throws IOException {
+    public boolean saveFile(Presentation presentation, String filename) throws IOException {
         if (fileEncoder == null) {
             throw new IOException("FileParser can't be null!");
         }

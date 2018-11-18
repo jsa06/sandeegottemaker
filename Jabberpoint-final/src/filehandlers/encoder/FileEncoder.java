@@ -14,5 +14,5 @@ public abstract class FileEncoder {
      * @param filename The filename without extension
      * @return True if the save was successful, false if it failed.
      */
-    public abstract Boolean saveFile(Presentation presentation, String filename);
+    public abstract boolean saveFile(Presentation presentation, String filename);
 }

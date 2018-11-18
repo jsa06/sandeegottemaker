@@ -78,7 +78,7 @@ public class XMLFileEncoder extends FileEncoder {
      * @param filename filename without extension
      * @return True if successful, False is saving fails.
      */
-    private Boolean writeFile(String filename) {
+    private boolean writeFile(String filename) {
         try {
             Transformer tr = TransformerFactory.newInstance().newTransformer();
             tr.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -105,8 +105,8 @@ public class XMLFileEncoder extends FileEncoder {
      * @param filename filename without extension
      * @return True if successful, false if saving fails.
      */
-    public Boolean saveFile(Presentation presentation, String filename) {
-        Boolean success = true;
+    public boolean saveFile(Presentation presentation, String filename) {
+        boolean success = true;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();

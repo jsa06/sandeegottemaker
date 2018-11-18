@@ -64,7 +64,7 @@ public class FileHandler {
      * @return True if the save is successful, false is the save failed.
      * @throws IOException
      */
-    public Boolean saveFile(Presentation presentation, String filetype, String filename) throws IOException {
+    public boolean saveFile(Presentation presentation, String filetype, String filename) throws IOException {
         FileEncoder encoder = fileEncoderFactory.getFileEncoder(filetype);
         fileSaver.setEncoder(encoder);
 
